@@ -63,6 +63,22 @@ wlroots_seat_set_capabilities (WlrootsSeat *self, WlrootsWaylandSeatCapability c
   wlr_seat_set_capabilities (self->wrapped_seat, caps);
 }
 
+void
+wlroots_seat_pointer_notify_axis (WlrootsSeat *self,
+                                  guint32 msec,
+                                  WlrootsEventAxisOrientation orientation,
+                                  gdouble delta,
+                                  gint32 delta_discrete,
+                                  WlrootsEventAxisSource source)
+{
+  wlr_seat_pointer_notify_axis (self->wrapped_seat,
+                                msec,
+                                orientation,
+                                delta,
+                                delta_discrete,
+                                source);
+}
+
 static void
 wlroots_seat_finalize (GObject *object)
 {

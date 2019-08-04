@@ -27,6 +27,7 @@ G_BEGIN_DECLS
 
 typedef struct _WlrootsEventPointerMotionAbsolute WlrootsEventPointerMotionAbsolute;
 typedef struct _WlrootsEventPointerAxis WlrootsEventPointerAxis;
+typedef struct _WlrootsEventPointerMotion WlrootsEventPointerMotion;
 
 struct _WlrootsEventPointerMotionAbsolute
 {
@@ -62,12 +63,27 @@ struct _WlrootsEventPointerAxis
   gint32 delta_discrete;
 };
 
+struct _WlrootsEventPointerMotion
+{
+  /*< public >*/
+  int ref_count;
+  WlrootsInputDevice *device;
+  guint32 time_msec;
+  gdouble delta_x;
+  gdouble delta_y;
+  gdouble unaccel_dx;
+  gdouble unaccel_dy;
+};
+
 #define WLROOTS_TYPE_EVENT_POINTER_MOTION_ABSOLUTE  (wlroots_event_pointer_motion_absolute_get_type ())
 #define WLROOTS_TYPE_EVENT_POINTER_AXIS  (wlroots_event_pointer_axis_get_type ())
+#define WLROOTS_TYPE_EVENT_POINTER_MOTION  (wlroots_event_pointer_motion_get_type ())
 GType              wlroots_event_pointer_motion_absolute_get_type (void) G_GNUC_CONST;
 GType              wlroots_event_pointer_axis_get_type (void) G_GNUC_CONST;
+GType              wlroots_event_pointer_motion_get_type (void) G_GNUC_CONST;
 
 WlrootsEventPointerMotionAbsolute *wlroots_event_pointer_motion_absolute_new (struct wlr_event_pointer_motion_absolute *event);
 WlrootsEventPointerAxis *wlroots_event_pointer_axis_new (struct wlr_event_pointer_axis *event);
+WlrootsEventPointerMotion *wlroots_event_pointer_motion_new (struct wlr_event_pointer_motion *event);
 
 G_END_DECLS

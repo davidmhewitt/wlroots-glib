@@ -22,6 +22,7 @@
 
 #include <glib-object.h>
 #include "wlroots-wayland-display.h"
+#include "wlroots-events.h"
 
 G_BEGIN_DECLS
 
@@ -38,5 +39,11 @@ typedef enum {
 } WlrootsWaylandSeatCapability;
 
 void wlroots_seat_set_capabilities (WlrootsSeat *self, WlrootsWaylandSeatCapability caps);
+void wlroots_seat_pointer_notify_axis (WlrootsSeat *self,
+                                       guint32 msec,
+                                       WlrootsEventAxisOrientation orientation,
+                                       gdouble delta,
+                                       gint32 delta_discrete,
+                                       WlrootsEventAxisSource source);
 
 G_END_DECLS

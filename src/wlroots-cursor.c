@@ -143,7 +143,8 @@ wlroots_cursor_class_init (WlrootsCursorClass *klass)
                   NULL,
                   g_cclosure_marshal_generic,
                   G_TYPE_NONE,
-                  0);
+                  1,
+                  WLROOTS_TYPE_EVENT_POINTER_MOTION);
 
   signals [MOTION_ABSOLUTE] =
     g_signal_new ("motion-absolute",
@@ -185,8 +186,9 @@ static void
 cursor_motion (struct wl_listener *listener, void *data)
 {
   WlrootsCursor *self = wl_container_of (listener, self, motion);
+  WlrootsEventPointerMotion *ev = wlroots_event_pointer_motion_new (data);
 
-  g_signal_emit (self, signals[MOTION], 0);
+  g_signal_emit (self, signals[MOTION], 0, ev);
 }
 
 static void
