@@ -74,6 +74,13 @@ wlroots_cursor_attach_input_device (WlrootsCursor *self, WlrootsInputDevice *inp
   wlr_cursor_attach_input_device (self->wrapped_cursor, dev);
 }
 
+void
+wlroots_cursor_warp_absolute (WlrootsCursor *self, WlrootsInputDevice *device, gdouble x, gdouble y)
+{
+  struct wlr_input_device *wlr_dev = wlroots_input_device_get_wlr_device (device);
+  wlr_cursor_warp_absolute (self->wrapped_cursor, wlr_dev, x, y);
+}
+
 static void
 wlroots_cursor_finalize (GObject *object)
 {

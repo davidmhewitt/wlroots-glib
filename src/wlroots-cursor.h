@@ -33,5 +33,6 @@ G_DECLARE_FINAL_TYPE (WlrootsCursor, wlroots_cursor, WLROOTS, CURSOR, GObject)
 WlrootsCursor *wlroots_cursor_new (void);
 void wlroots_cursor_attach_output_layout (WlrootsCursor *self, WlrootsOutputLayout *output_layout);
 void wlroots_cursor_attach_input_device (WlrootsCursor *self, WlrootsInputDevice *input_dev);
+void wlroots_cursor_warp_absolute (WlrootsCursor *self, WlrootsInputDevice *device, gdouble x, gdouble y);
 
 G_END_DECLS
