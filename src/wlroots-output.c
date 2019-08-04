@@ -145,6 +145,12 @@ wlroots_output_commit (WlrootsOutput *self)
   wlr_output_commit (self->wlroots_output);
 }
 
+void
+wlroots_output_render_software_cursors (WlrootsOutput *self)
+{
+  wlr_output_render_software_cursors (self->wlroots_output, NULL);
+}
+
 static void
 wlroots_output_get_property (GObject    *object,
                              guint       prop_id,

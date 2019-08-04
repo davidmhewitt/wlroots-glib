@@ -21,6 +21,7 @@
 #pragma once
 
 #include <glib-object.h>
+#include "wlroots-cursor.h"
 
 G_BEGIN_DECLS
 
@@ -30,5 +31,6 @@ G_DECLARE_FINAL_TYPE (WlrootsXCursorManager, wlroots_xcursor_manager, WLROOTS, X
 
 WlrootsXCursorManager *wlroots_xcursor_manager_new (gchar *name, guint32 size);
 void wlroots_xcursor_manager_load (WlrootsXCursorManager *self, gfloat scale);
+void wlroots_xcursor_manager_set_cursor_image (WlrootsXCursorManager *self, gchar *name, WlrootsCursor *cursor);
 
 G_END_DECLS

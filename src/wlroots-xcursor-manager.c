@@ -66,6 +66,13 @@ wlroots_xcursor_manager_load (WlrootsXCursorManager *self, gfloat scale)
   wlr_xcursor_manager_load (self->wrapped_xcursor_manager, scale);
 }
 
+void
+wlroots_xcursor_manager_set_cursor_image (WlrootsXCursorManager *self, gchar *name, WlrootsCursor *cursor)
+{
+  struct wlr_cursor *roots_cursor = wlroots_cursor_get_wlr_cursor (cursor);
+  wlr_xcursor_manager_set_cursor_image (self->wrapped_xcursor_manager, name, roots_cursor);
+}
+
 static void
 wlroots_xcursor_manager_finalize (GObject *object)
 {
