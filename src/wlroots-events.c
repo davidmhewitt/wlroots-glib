@@ -85,3 +85,71 @@ wlroots_event_pointer_motion_absolute_new (struct wlr_event_pointer_motion_absol
 
   return event;
 }
+
+/**
+ * wlroots_event_pointer_axis_ref:
+ * @event: a #WlrootsEventPointerAxis.
+ *
+ * Increments the reference count of the event
+ *
+ * Returns: the event.
+ **/
+WlrootsEventPointerAxis *
+wlroots_event_pointer_axis_ref (WlrootsEventPointerAxis *event)
+{
+  if (event)
+  {
+    event->ref_count++;
+  }
+
+  return event;
+}
+
+/**
+ * wlroots_event_pointer_axis_unref:
+ * @event: a #WlrootsEventPointerAxis.
+ *
+ * Decrements the reference count of the event. If it falls to 0
+ * it is freed
+ *
+ * Returns: the event.
+ **/
+void
+wlroots_event_pointer_axis_unref (WlrootsEventPointerAxis *event)
+{
+  if (event && --event->ref_count == 0)
+  {
+    g_object_unref (event->device);
+    g_free (event);
+  }
+}
+
+GType
+wlroots_event_pointer_axis_get_type (void)
+{
+  static GType event_type = 0;
+
+  if (event_type == 0)
+    event_type = g_boxed_type_register_static
+      ("WlrootsEventPointerAxis",
+       (GBoxedCopyFunc) wlroots_event_pointer_axis_ref,
+       (GBoxedFreeFunc) wlroots_event_pointer_axis_unref);
+
+  return event_type;
+}
+
+WlrootsEventPointerAxis *
+wlroots_event_pointer_axis_new (struct wlr_event_pointer_axis *wlr_event)
+{
+  WlrootsEventPointerAxis *event;
+  event = g_new (WlrootsEventPointerAxis, 1);
+  event->ref_count = 1;
+  event->device = wlroots_input_device_wrap (wlr_event->device);
+  event->time_msec = wlr_event->time_msec;
+  event->source = wlr_event->source;
+  event->orientation = wlr_event->orientation;
+  event->delta = wlr_event->delta;
+  event->delta_discrete = wlr_event->delta_discrete;
+
+  return event;
+}
