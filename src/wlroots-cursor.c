@@ -66,6 +66,13 @@ wlroots_cursor_attach_output_layout (WlrootsCursor *self, WlrootsOutputLayout *o
   wlr_cursor_attach_output_layout (self->wrapped_cursor, wlr_layout);
 }
 
+void
+wlroots_cursor_attach_input_device (WlrootsCursor *self, WlrootsInputDevice *input_dev)
+{
+  struct wlr_input_device *dev = wlroots_input_device_get_wlr_device (input_dev);
+  wlr_cursor_attach_input_device (self->wrapped_cursor, dev);
+}
+
 static void
 wlroots_cursor_finalize (GObject *object)
 {

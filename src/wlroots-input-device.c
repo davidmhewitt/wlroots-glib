@@ -59,6 +59,12 @@ wlroots_input_device_wrap (struct wlr_input_device *device)
   return g_object_new (WLROOTS_TYPE_INPUT_DEVICE, "wlroots-input-device", device, NULL);
 }
 
+struct wlr_input_device *
+wlroots_input_device_get_wlr_device (WlrootsInputDevice *self)
+{
+  return self->wrapped_device;
+}
+
 static void
 wlroots_input_device_finalize (GObject *object)
 {

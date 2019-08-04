@@ -22,6 +22,7 @@
 
 #include <glib-object.h>
 #include "wlroots-output-layout.h"
+#include "wlroots-input-device.h"
 
 G_BEGIN_DECLS
 
@@ -31,5 +32,6 @@ G_DECLARE_FINAL_TYPE (WlrootsCursor, wlroots_cursor, WLROOTS, CURSOR, GObject)
 
 WlrootsCursor *wlroots_cursor_new (void);
 void wlroots_cursor_attach_output_layout (WlrootsCursor *self, WlrootsOutputLayout *output_layout);
+void wlroots_cursor_attach_input_device (WlrootsCursor *self, WlrootsInputDevice *input_dev);
 
 G_END_DECLS

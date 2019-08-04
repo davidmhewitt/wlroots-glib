@@ -30,6 +30,7 @@ G_BEGIN_DECLS
 G_DECLARE_FINAL_TYPE (WlrootsInputDevice, wlroots_input_device, WLROOTS, INPUT_DEVICE, GObject)
 
 WlrootsInputDevice *wlroots_input_device_wrap (struct wlr_input_device *device);
+struct wlr_input_device *wlroots_input_device_get_wlr_device (WlrootsInputDevice *self);
 
 typedef enum {
   WLROOTS_INPUT_DEVICE_TYPE_UNKNOWN,
