@@ -1,0 +1,97 @@
+/* wlroots-version.h.in
+ *
+ * Copyright 2019 David Hewitt
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+#ifndef WLROOTS_GLIB_VERSION_H
+#define WLROOTS_GLIB_VERSION_H
+
+#if !defined(WLROOTS_GLIB_INSIDE) && !defined(WLROOTS_GLIB_COMPILATION)
+# error "Only <wlroots-glib.h> can be included directly."
+#endif
+
+/**
+ * SECTION:wlrootsversion
+ * @short_description: wlroots-glib version checking
+ *
+ * wlroots-glib provides macros to check the version of the library
+ * at compile-time
+ */
+
+/**
+ * WLROOTS_MAJOR_VERSION:
+ *
+ * wlroots-glib major version component (e.g. 1 if %WLROOTS_VERSION is 1.2.3)
+ */
+#define WLROOTS_MAJOR_VERSION (@MAJOR_VERSION@)
+
+/**
+ * WLROOTS_MINOR_VERSION:
+ *
+ * wlroots-glib minor version component (e.g. 2 if %WLROOTS_VERSION is 1.2.3)
+ */
+#define WLROOTS_MINOR_VERSION (@MINOR_VERSION@)
+
+/**
+ * WLROOTS_MICRO_VERSION:
+ *
+ * wlroots-glib micro version component (e.g. 3 if %WLROOTS_VERSION is 1.2.3)
+ */
+#define WLROOTS_MICRO_VERSION (@MICRO_VERSION@)
+
+/**
+ * WLROOTS_VERSION
+ *
+ * wlroots-glib version.
+ */
+#define WLROOTS_VERSION (@VERSION@)
+
+/**
+ * WLROOTS_VERSION_S:
+ *
+ * wlroots-glib version, encoded as a string, useful for printing and
+ * concatenation.
+ */
+#define WLROOTS_VERSION_S "@VERSION@"
+
+#define WLROOTS_ENCODE_VERSION(major,minor,micro) \
+        ((major) << 24 | (minor) << 16 | (micro) << 8)
+
+/**
+ * WLROOTS_VERSION_HEX:
+ *
+ * wlroots-glib version, encoded as an hexadecimal number, useful for
+ * integer comparisons.
+ */
+#define WLROOTS_VERSION_HEX \
+        (WLROOTS_ENCODE_VERSION (WLROOTS_MAJOR_VERSION, WLROOTS_MINOR_VERSION, WLROOTS_MICRO_VERSION))
+
+/**
+ * WLROOTS_CHECK_VERSION:
+ * @major: required major version
+ * @minor: required minor version
+ * @micro: required micro version
+ *
+ * Compile-time version checking. Evaluates to %TRUE if the version
+ * of wlroots-glib is greater than the required one.
+ */
+#define WLROOTS_CHECK_VERSION(major,minor,micro)   \
+        (WLROOTS_MAJOR_VERSION > (major) || \
+         (WLROOTS_MAJOR_VERSION == (major) && WLROOTS_MINOR_VERSION > (minor)) || \
+         (WLROOTS_MAJOR_VERSION == (major) && WLROOTS_MINOR_VERSION == (minor) && \
+          WLROOTS_MICRO_VERSION >= (micro)))
+
+#endif /* WLROOTS_GLIB_VERSION_H */
