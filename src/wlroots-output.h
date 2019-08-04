@@ -36,6 +36,9 @@ GList *wlroots_output_get_modes (WlrootsOutput *self);
 void wlroots_output_set_mode (WlrootsOutput *self, WlrootsOutputMode *mode);
 struct wlr_output *wlroots_output_get_wlr_output (WlrootsOutput *self);
 void wlroots_output_create_global (WlrootsOutput *self);
+gboolean wlroots_output_attach_render (WlrootsOutput *self, int *buffer_age);
+void wlroots_output_effective_resolution (WlrootsOutput *self, int *width, int *height);
+void wlroots_output_commit (WlrootsOutput *self);
 
 /**
  * WlrootsOutputMode:

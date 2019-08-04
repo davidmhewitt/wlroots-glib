@@ -112,6 +112,39 @@ wlroots_output_create_global (WlrootsOutput *self)
   wlr_output_create_global (self->wlroots_output);
 }
 
+/**
+ * wlroots_output_attach_render:
+ * @buffer_age: (out) (nullable): Pointer to int where to store buffer age
+ *
+ * Returns: Whether the render was attached successfully
+ *
+ * Since: 0.1
+ */
+gboolean
+wlroots_output_attach_render (WlrootsOutput *self, int *buffer_age)
+{
+  return wlr_output_attach_render (self->wlroots_output, buffer_age);
+}
+
+/**
+ * wlroots_output_effective_resolution:
+ * @width: (out): Pointer to int to store effective width
+ * @height: (out): Pointer to int to store effective height
+ *
+ * Since: 0.1
+ */
+void
+wlroots_output_effective_resolution (WlrootsOutput *self, int *width, int *height)
+{
+  wlr_output_effective_resolution (self->wlroots_output, width, height);
+}
+
+void
+wlroots_output_commit (WlrootsOutput *self)
+{
+  wlr_output_commit (self->wlroots_output);
+}
+
 static void
 wlroots_output_get_property (GObject    *object,
                              guint       prop_id,

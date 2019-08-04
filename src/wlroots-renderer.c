@@ -70,6 +70,30 @@ wlroots_renderer_get_wlr_renderer (WlrootsRenderer *self)
   return self->wrapped_renderer;
 }
 
+void
+wlroots_renderer_begin (WlrootsRenderer* self, int width, int height)
+{
+  wlr_renderer_begin (self->wrapped_renderer, width, height);
+}
+
+void
+wlroots_renderer_end (WlrootsRenderer * self)
+{
+  wlr_renderer_end (self->wrapped_renderer);
+}
+
+/**
+ * wlroots_renderer_clear:
+ * @color: (array fixed-size=4): Array of 4 floats, RGBA color to clear
+ *
+ * Since: 0.2
+ */
+void
+wlroots_renderer_clear (WlrootsRenderer *self, const float color[])
+{
+  wlr_renderer_clear (self->wrapped_renderer, color);
+}
+
 static void
 wlroots_renderer_get_property (GObject    *object,
                                guint       prop_id,

@@ -33,5 +33,8 @@ G_DECLARE_FINAL_TYPE (WlrootsRenderer, wlroots_renderer, WLROOTS, RENDERER, GObj
 WlrootsRenderer *wlroots_renderer_wrap (struct wlr_renderer *renderer);
 void wlroots_renderer_init_wl_display (WlrootsRenderer *self, WlrootsWaylandDisplay *display);
 struct wlr_renderer *wlroots_renderer_get_wlr_renderer (WlrootsRenderer *self);
+void wlroots_renderer_begin (WlrootsRenderer *self, int width, int height);
+void wlroots_renderer_end (WlrootsRenderer *self);
+void wlroots_renderer_clear (WlrootsRenderer *self, const float color[]);
 
 G_END_DECLS
