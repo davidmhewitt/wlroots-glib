@@ -22,6 +22,7 @@
 #include "wlroots-compositor.h"
 #include "wlroots-cursor.h"
 #include "wlroots-data-device-manager.h"
+#include "wlroots-events.h"
 #include "wlroots-input-device.h"
 #include "wlroots-output.h"
 #include "wlroots-output-layout.h"

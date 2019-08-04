@@ -19,6 +19,7 @@
  */
 
 #include "wlroots-cursor.h"
+#include "wlroots-events.h"
 #include <wlr/types/wlr_cursor.h>
 
 struct _WlrootsCursor
@@ -140,7 +141,8 @@ wlroots_cursor_class_init (WlrootsCursorClass *klass)
                   NULL,
                   g_cclosure_marshal_generic,
                   G_TYPE_NONE,
-                  0);
+                  1,
+                  WLROOTS_TYPE_EVENT_POINTER_MOTION_ABSOLUTE);
 
   signals [BUTTON] =
     g_signal_new ("button",
@@ -169,6 +171,7 @@ static void
 cursor_motion (struct wl_listener *listener, void *data)
 {
   WlrootsCursor *self = wl_container_of (listener, self, motion);
+
   g_signal_emit (self, signals[MOTION], 0);
 }
 
@@ -176,7 +179,9 @@ static void
 cursor_motion_absolute (struct wl_listener *listener, void *data)
 {
   WlrootsCursor *self = wl_container_of (listener, self, motion_absolute);
-  g_signal_emit (self, signals[MOTION_ABSOLUTE], 0);
+  WlrootsEventPointerMotionAbsolute *ev = wlroots_event_pointer_motion_absolute_new (data);
+
+  g_signal_emit (self, signals[MOTION_ABSOLUTE], 0, ev);
 }
 
 static void
