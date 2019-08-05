@@ -221,3 +221,69 @@ wlroots_event_pointer_motion_new (struct wlr_event_pointer_motion *wlr_event)
 
   return event;
 }
+
+/**
+ * wlroots_event_pointer_button_ref:
+ * @event: a #WlrootsEventPointerButton.
+ *
+ * Increments the reference count of the event
+ *
+ * Returns: the event.
+ **/
+WlrootsEventPointerButton *
+wlroots_event_pointer_button_ref (WlrootsEventPointerButton *event)
+{
+  if (event)
+  {
+    event->ref_count++;
+  }
+
+  return event;
+}
+
+/**
+ * wlroots_event_pointer_button_unref:
+ * @event: a #WlrootsEventPointerButton.
+ *
+ * Decrements the reference count of the event. If it falls to 0
+ * it is freed
+ *
+ * Returns: the event.
+ **/
+void
+wlroots_event_pointer_button_unref (WlrootsEventPointerButton *event)
+{
+  if (event && --event->ref_count == 0)
+  {
+    g_object_unref (event->device);
+    g_free (event);
+  }
+}
+
+GType
+wlroots_event_pointer_button_get_type (void)
+{
+  static GType event_type = 0;
+
+  if (event_type == 0)
+    event_type = g_boxed_type_register_static
+      ("WlrootsEventPointerButton",
+       (GBoxedCopyFunc) wlroots_event_pointer_button_ref,
+       (GBoxedFreeFunc) wlroots_event_pointer_button_unref);
+
+  return event_type;
+}
+
+WlrootsEventPointerButton *
+wlroots_event_pointer_button_new (struct wlr_event_pointer_button *wlr_event)
+{
+  WlrootsEventPointerButton *event;
+  event = g_new (WlrootsEventPointerButton, 1);
+  event->ref_count = 1;
+  event->device = wlroots_input_device_wrap (wlr_event->device);
+  event->time_msec = wlr_event->time_msec;
+  event->button = wlr_event->button;
+  event->state = wlr_event->state;
+
+  return event;
+}

@@ -28,6 +28,7 @@ G_BEGIN_DECLS
 typedef struct _WlrootsEventPointerMotionAbsolute WlrootsEventPointerMotionAbsolute;
 typedef struct _WlrootsEventPointerAxis WlrootsEventPointerAxis;
 typedef struct _WlrootsEventPointerMotion WlrootsEventPointerMotion;
+typedef struct _WlrootsEventPointerButton WlrootsEventPointerButton;
 
 struct _WlrootsEventPointerMotionAbsolute
 {
@@ -75,15 +76,33 @@ struct _WlrootsEventPointerMotion
   gdouble unaccel_dy;
 };
 
+typedef enum {
+  WLROOTS_BUTTON_PRESSED,
+  WLROOTS_BUTTON_RELEASED,
+} WlrootsButtonState;
+
+struct _WlrootsEventPointerButton
+{
+  /*< public >*/
+  int ref_count;
+  WlrootsInputDevice *device;
+  guint32 time_msec;
+  guint32 button;
+  WlrootsButtonState state;
+};
+
 #define WLROOTS_TYPE_EVENT_POINTER_MOTION_ABSOLUTE  (wlroots_event_pointer_motion_absolute_get_type ())
 #define WLROOTS_TYPE_EVENT_POINTER_AXIS  (wlroots_event_pointer_axis_get_type ())
 #define WLROOTS_TYPE_EVENT_POINTER_MOTION  (wlroots_event_pointer_motion_get_type ())
+#define WLROOTS_TYPE_EVENT_POINTER_BUTTON  (wlroots_event_pointer_button_get_type ())
 GType              wlroots_event_pointer_motion_absolute_get_type (void) G_GNUC_CONST;
 GType              wlroots_event_pointer_axis_get_type (void) G_GNUC_CONST;
 GType              wlroots_event_pointer_motion_get_type (void) G_GNUC_CONST;
+GType              wlroots_event_pointer_button_get_type (void) G_GNUC_CONST;
 
 WlrootsEventPointerMotionAbsolute *wlroots_event_pointer_motion_absolute_new (struct wlr_event_pointer_motion_absolute *event);
 WlrootsEventPointerAxis *wlroots_event_pointer_axis_new (struct wlr_event_pointer_axis *event);
 WlrootsEventPointerMotion *wlroots_event_pointer_motion_new (struct wlr_event_pointer_motion *event);
+WlrootsEventPointerButton *wlroots_event_pointer_button_new (struct wlr_event_pointer_button *event);
 
 G_END_DECLS

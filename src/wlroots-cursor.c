@@ -167,7 +167,8 @@ wlroots_cursor_class_init (WlrootsCursorClass *klass)
                   NULL,
                   g_cclosure_marshal_generic,
                   G_TYPE_NONE,
-                  0);
+                  1,
+                  WLROOTS_TYPE_EVENT_POINTER_BUTTON);
 
   signals [AXIS] =
     g_signal_new ("axis",
@@ -204,7 +205,9 @@ static void
 cursor_button (struct wl_listener *listener, void *data)
 {
   WlrootsCursor *self = wl_container_of (listener, self, button);
-  g_signal_emit (self, signals[BUTTON], 0);
+  WlrootsEventPointerButton *ev = wlroots_event_pointer_button_new (data);
+
+  g_signal_emit (self, signals[BUTTON], 0, ev);
 }
 
 static void
