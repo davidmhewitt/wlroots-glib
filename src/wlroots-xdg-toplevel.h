@@ -1,4 +1,4 @@
-/* wlroots-xdg-surface.h
+/* wlroots-xdg-toplevel.h
  *
  * Copyright 2019 David Hewitt <davidmhewitt@gmail.com>
  *
@@ -22,21 +22,13 @@
 
 #include <glib-object.h>
 #include <wlr/types/wlr_xdg_shell.h>
-#include "wlroots-xdg-toplevel.h"
 
 G_BEGIN_DECLS
 
-#define WLROOTS_TYPE_XDG_SURFACE (wlroots_xdg_surface_get_type())
+#define WLROOTS_TYPE_XDG_TOPLEVEL (wlroots_xdg_toplevel_get_type())
 
-G_DECLARE_FINAL_TYPE (WlrootsXDGSurface, wlroots_xdg_surface, WLROOTS, XDG_SURFACE, GObject)
+G_DECLARE_FINAL_TYPE (WlrootsXDGToplevel, wlroots_xdg_toplevel, WLROOTS, XDG_TOPLEVEL, GObject)
 
-WlrootsXDGSurface *wlroots_xdg_surface_wrap (struct wlr_xdg_surface *surface);
-WlrootsXDGToplevel *wlroots_xdg_surface_get_toplevel (WlrootsXDGSurface *self);
-
-typedef enum {
-  WLROOTS_XDG_SURFACE_ROLE_NONE,
-  WLROOTS_XDG_SURFACE_ROLE_TOPLEVEL,
-  WLROOTS_XDG_SURFACE_ROLE_POPUP,
-} WlrootsXDGSurfaceRole;
+WlrootsXDGToplevel *wlroots_xdg_toplevel_wrap (struct wlr_xdg_toplevel *toplevel);
 
 G_END_DECLS

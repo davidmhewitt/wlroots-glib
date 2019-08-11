@@ -30,6 +30,8 @@ struct _WlrootsXDGSurface
   struct wl_listener map;
   struct wl_listener unmap;
   struct wl_listener destroy;
+
+  WlrootsXDGToplevel *toplevel;
 };
 
 G_DEFINE_TYPE (WlrootsXDGSurface, wlroots_xdg_surface, G_TYPE_OBJECT)
@@ -38,6 +40,7 @@ enum {
   PROP_0,
   PROP_XDG_SURFACE,
   PROP_ROLE,
+  PROP_TOPLEVEL,
   N_PROPS
 };
 
@@ -79,6 +82,23 @@ wlroots_xdg_surface_finalize (GObject *object)
   G_OBJECT_CLASS (wlroots_xdg_surface_parent_class)->finalize (object);
 }
 
+/**
+ * wlroots_xdg_surface_get_toplevel:
+ *
+ * Returns: (transfer none): The #WlrootsXDGToplevel instance associated with this surface
+ *
+ * Since: 0.1
+ */
+WlrootsXDGToplevel *
+wlroots_xdg_surface_get_toplevel (WlrootsXDGSurface *self)
+{
+  if (!self->toplevel) {
+    self->toplevel = wlroots_xdg_toplevel_wrap (self->wrapped_surface->toplevel);
+  }
+
+  return self->toplevel;
+}
+
 static gint
 wlr_xdg_surface_role_to_wlroots_xdg_surface_role (gint type)
 {
@@ -113,6 +133,9 @@ wlroots_xdg_surface_get_property (GObject    *object,
       break;
     case PROP_ROLE:
       g_value_set_enum (value, wlr_xdg_surface_role_to_wlroots_xdg_surface_role (self->wrapped_surface->role));
+      break;
+    case PROP_TOPLEVEL:
+      g_value_set_object (value, wlroots_xdg_surface_get_toplevel (self));
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -157,6 +180,8 @@ static void
 xdg_surface_destroy (struct wl_listener *listener, void* data)
 {
   WlrootsXDGSurface *self = wl_container_of (listener, self, destroy);
+
+  g_object_unref (self->toplevel);
 
   g_signal_emit (self, signals[DESTROY], 0);
 }
@@ -208,6 +233,15 @@ wlroots_xdg_surface_class_init (WlrootsXDGSurfaceClass *klass)
                        WLROOTS_XDG_SURFACE_ROLE_NONE,
                        (G_PARAM_READABLE |
                         G_PARAM_STATIC_STRINGS));
+
+  properties [PROP_TOPLEVEL] =
+    g_param_spec_object ("toplevel",
+                         "Toplevel",
+                         "Toplevel",
+                         WLROOTS_TYPE_XDG_TOPLEVEL,
+                         (G_PARAM_READABLE |
+                          G_PARAM_STATIC_STRINGS));
+
   g_object_class_install_properties (object_class, N_PROPS, properties);
 
   signals [MAP] =

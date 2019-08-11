@@ -15,6 +15,7 @@ wlroots_glib_sources = [
   'wlroots-xcursor-manager.c',
   'wlroots-xdg-shell.c',
   'wlroots-xdg-surface.c',
+  'wlroots-xdg-toplevel.c',
 ]
 
 wlroots_glib_headers = [
@@ -33,6 +34,7 @@ wlroots_glib_headers = [
   'wlroots-xcursor-manager.h',
   'wlroots-xdg-shell.h',
   'wlroots-xdg-surface.h',
+  'wlroots-xdg-toplevel.h',
 ]
 
 wlroots_glib_enums = gnome.mkenums(
