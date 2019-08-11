@@ -26,6 +26,10 @@ struct _WlrootsXDGSurface
   GObject parent_instance;
 
   struct wlr_xdg_surface *wrapped_surface;
+
+  struct wl_listener map;
+  struct wl_listener unmap;
+  struct wl_listener destroy;
 };
 
 G_DEFINE_TYPE (WlrootsXDGSurface, wlroots_xdg_surface, G_TYPE_OBJECT)
@@ -37,7 +41,15 @@ enum {
   N_PROPS
 };
 
+enum {
+  MAP,
+  UNMAP,
+  DESTROY,
+  N_SIGNALS
+};
+
 static GParamSpec *properties [N_PROPS];
+static gint signals[N_SIGNALS];
 
 WlrootsXDGSurface *
 wlroots_xdg_surface_new (void)
@@ -126,9 +138,41 @@ wlroots_xdg_surface_set_property (GObject      *object,
 }
 
 static void
+xdg_surface_map (struct wl_listener *listener, void* data)
+{
+  WlrootsXDGSurface *self = wl_container_of (listener, self, map);
+
+  g_signal_emit (self, signals[MAP], 0);
+}
+
+static void
+xdg_surface_unmap (struct wl_listener *listener, void* data)
+{
+  WlrootsXDGSurface *self = wl_container_of (listener, self, unmap);
+
+  g_signal_emit (self, signals[UNMAP], 0);
+}
+
+static void
+xdg_surface_destroy (struct wl_listener *listener, void* data)
+{
+  WlrootsXDGSurface *self = wl_container_of (listener, self, destroy);
+
+  g_signal_emit (self, signals[DESTROY], 0);
+}
+
+static void
 wlroots_xdg_surface_constructed (GObject *obj)
 {
   WlrootsXDGSurface *self = WLROOTS_XDG_SURFACE (obj);
+
+  self->map.notify = xdg_surface_map;
+  self->unmap.notify = xdg_surface_unmap;
+  self->destroy.notify = xdg_surface_destroy;
+
+  wl_signal_add (&self->wrapped_surface->events.map, &self->map);
+  wl_signal_add (&self->wrapped_surface->events.unmap, &self->unmap);
+  wl_signal_add (&self->wrapped_surface->events.destroy, &self->destroy);
 
   G_OBJECT_CLASS(wlroots_xdg_surface_parent_class)->constructed (obj);
 }
@@ -165,6 +209,39 @@ wlroots_xdg_surface_class_init (WlrootsXDGSurfaceClass *klass)
                        (G_PARAM_READABLE |
                         G_PARAM_STATIC_STRINGS));
   g_object_class_install_properties (object_class, N_PROPS, properties);
+
+  signals [MAP] =
+    g_signal_new ("map",
+                  G_TYPE_FROM_CLASS (klass),
+                  G_SIGNAL_RUN_LAST,
+                  0,
+                  NULL,
+                  NULL,
+                  g_cclosure_marshal_generic,
+                  G_TYPE_NONE,
+                  0);
+
+  signals [UNMAP] =
+    g_signal_new ("unmap",
+                  G_TYPE_FROM_CLASS (klass),
+                  G_SIGNAL_RUN_LAST,
+                  0,
+                  NULL,
+                  NULL,
+                  g_cclosure_marshal_generic,
+                  G_TYPE_NONE,
+                  0);
+
+  signals [DESTROY] =
+    g_signal_new ("destroy",
+                  G_TYPE_FROM_CLASS (klass),
+                  G_SIGNAL_RUN_LAST,
+                  0,
+                  NULL,
+                  NULL,
+                  g_cclosure_marshal_generic,
+                  G_TYPE_NONE,
+                  0);
 }
 
 static void
