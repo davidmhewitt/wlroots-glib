@@ -2,6 +2,7 @@ api_version = '0.1'
 
 wlroots_glib_sources = [
   'wlroots-backend.c',
+  'wlroots-box.c',
   'wlroots-compositor.c',
   'wlroots-cursor.c',
   'wlroots-data-device-manager.c',
@@ -21,6 +22,7 @@ wlroots_glib_sources = [
 wlroots_glib_headers = [
   'wlroots-glib.h',
   'wlroots-backend.h',
+  'wlroots-box.h',
   'wlroots-compositor.h',
   'wlroots-cursor.h',
   'wlroots-data-device-manager.h',

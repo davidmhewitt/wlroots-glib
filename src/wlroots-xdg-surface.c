@@ -74,6 +74,20 @@ wlroots_xdg_surface_wrap (struct wlr_xdg_surface *surface)
   return g_object_new (WLROOTS_TYPE_XDG_SURFACE, "xdg-surface", surface, NULL);
 }
 
+/**
+ * wlroots_xdg_surface_get_geometry:
+ * @box: (out) (transfer full): A #WlrootsBox containing the geometry of the surface
+ *
+ * Since: 0.1
+ */
+void
+wlroots_xdg_surface_get_geometry (WlrootsXDGSurface *self, WlrootsBox **box)
+{
+  struct wlr_box geometry;
+  wlr_xdg_surface_get_geometry (self->wrapped_surface, &geometry);
+  *box = wlroots_box_wrap (&geometry);
+}
+
 static void
 wlroots_xdg_surface_finalize (GObject *object)
 {

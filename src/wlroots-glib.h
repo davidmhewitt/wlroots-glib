@@ -19,6 +19,7 @@
  */
 
 #include "wlroots-backend.h"
+#include "wlroots-box.h"
 #include "wlroots-compositor.h"
 #include "wlroots-cursor.h"
 #include "wlroots-data-device-manager.h"

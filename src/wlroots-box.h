@@ -1,4 +1,4 @@
-/* wlroots-xdg-surface.h
+/* wlroots-box.h
  *
  * Copyright 2019 David Hewitt <davidmhewitt@gmail.com>
  *
@@ -21,24 +21,25 @@
 #pragma once
 
 #include <glib-object.h>
-#include <wlr/types/wlr_xdg_shell.h>
-#include "wlroots-xdg-toplevel.h"
-#include "wlroots-box.h"
+#include <wlr/types/wlr_box.h>
 
 G_BEGIN_DECLS
 
-#define WLROOTS_TYPE_XDG_SURFACE (wlroots_xdg_surface_get_type())
+typedef struct _WlrootsBox WlrootsBox;
 
-G_DECLARE_FINAL_TYPE (WlrootsXDGSurface, wlroots_xdg_surface, WLROOTS, XDG_SURFACE, GObject)
+struct _WlrootsBox
+{
+  /*< public >*/
+  int ref_count;
+  int x;
+  int y;
+  int width;
+  int height;
+};
 
-WlrootsXDGSurface *wlroots_xdg_surface_wrap (struct wlr_xdg_surface *surface);
-WlrootsXDGToplevel *wlroots_xdg_surface_get_toplevel (WlrootsXDGSurface *self);
-void wlroots_xdg_surface_get_geometry (WlrootsXDGSurface *self, WlrootsBox **box);
-
-typedef enum {
-  WLROOTS_XDG_SURFACE_ROLE_NONE,
-  WLROOTS_XDG_SURFACE_ROLE_TOPLEVEL,
-  WLROOTS_XDG_SURFACE_ROLE_POPUP,
-} WlrootsXDGSurfaceRole;
+#define WLROOTS_TYPE_BOX (wlroots_box_get_type ())
+GType              wlroots_box_get_type (void) G_GNUC_CONST;
+WlrootsBox *wlroots_box_new ();
+WlrootsBox *wlroots_box_wrap (struct wlr_box *box);
 
 G_END_DECLS
