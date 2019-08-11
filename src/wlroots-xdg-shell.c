@@ -118,7 +118,8 @@ static void
 xdg_shell_new_surface (struct wl_listener *listener, void* data)
 {
   WlrootsXDGShell *self = wl_container_of (listener, self, new_surface);
-  g_signal_emit (self, signals[NEW_SURFACE], 0);
+  WlrootsXDGSurface *surface = wlroots_xdg_surface_wrap (data);
+  g_signal_emit (self, signals[NEW_SURFACE], 0, surface);
 }
 
 static void

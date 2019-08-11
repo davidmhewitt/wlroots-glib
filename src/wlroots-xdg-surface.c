@@ -19,6 +19,7 @@
  */
 
 #include "wlroots-xdg-surface.h"
+#include "wlroots-enum-types.h"
 
 struct _WlrootsXDGSurface
 {
@@ -32,6 +33,7 @@ G_DEFINE_TYPE (WlrootsXDGSurface, wlroots_xdg_surface, G_TYPE_OBJECT)
 enum {
   PROP_0,
   PROP_XDG_SURFACE,
+  PROP_ROLE,
   N_PROPS
 };
 
@@ -54,7 +56,7 @@ wlroots_xdg_surface_new (void)
 WlrootsXDGSurface *
 wlroots_xdg_surface_wrap (struct wlr_xdg_surface *surface)
 {
-  return g_object_new (WLROOTS_TYPE_XDG_SURFACE, "wrapped-surface", surface, NULL);
+  return g_object_new (WLROOTS_TYPE_XDG_SURFACE, "xdg-surface", surface, NULL);
 }
 
 static void
@@ -63,6 +65,25 @@ wlroots_xdg_surface_finalize (GObject *object)
   WlrootsXDGSurface *self = (WlrootsXDGSurface *)object;
 
   G_OBJECT_CLASS (wlroots_xdg_surface_parent_class)->finalize (object);
+}
+
+static gint
+wlr_xdg_surface_role_to_wlroots_xdg_surface_role (gint type)
+{
+  gint output = WLROOTS_XDG_SURFACE_ROLE_NONE;
+  switch(type)
+    {
+    case WLR_XDG_SURFACE_ROLE_TOPLEVEL:
+      output = WLROOTS_XDG_SURFACE_ROLE_TOPLEVEL;
+      break;
+    case WLR_XDG_SURFACE_ROLE_POPUP:
+      output = WLROOTS_XDG_SURFACE_ROLE_POPUP;
+      break;
+    default:
+      break;
+    }
+
+  return output;
 }
 
 static void
@@ -77,6 +98,9 @@ wlroots_xdg_surface_get_property (GObject    *object,
     {
     case PROP_XDG_SURFACE:
       g_value_set_pointer (value, self->wrapped_surface);
+      break;
+    case PROP_ROLE:
+      g_value_set_enum (value, wlr_xdg_surface_role_to_wlroots_xdg_surface_role (self->wrapped_surface->role));
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -127,6 +151,19 @@ wlroots_xdg_surface_class_init (WlrootsXDGSurfaceClass *klass)
                           (G_PARAM_READWRITE |
                            G_PARAM_CONSTRUCT_ONLY |
                            G_PARAM_STATIC_STRINGS));
+  /**
+   * WlrootsXDGSurface:role: (type WlrootsXDGSurfaceRole)
+   *
+   * The device type.
+   */
+  properties [PROP_ROLE] =
+    g_param_spec_enum ("role",
+                       "Role",
+                       "Role",
+                       WLROOTS_TYPE_XDG_SURFACE_ROLE,
+                       WLROOTS_XDG_SURFACE_ROLE_NONE,
+                       (G_PARAM_READABLE |
+                        G_PARAM_STATIC_STRINGS));
   g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 

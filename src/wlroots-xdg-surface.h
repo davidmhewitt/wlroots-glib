@@ -31,4 +31,10 @@ G_DECLARE_FINAL_TYPE (WlrootsXDGSurface, wlroots_xdg_surface, WLROOTS, XDG_SURFA
 
 WlrootsXDGSurface *wlroots_xdg_surface_wrap (struct wlr_xdg_surface *surface);
 
+typedef enum {
+  WLROOTS_XDG_SURFACE_ROLE_NONE,
+  WLROOTS_XDG_SURFACE_ROLE_TOPLEVEL,
+  WLROOTS_XDG_SURFACE_ROLE_POPUP,
+} WlrootsXDGSurfaceRole;
+
 G_END_DECLS
