@@ -31,3 +31,4 @@
 #include "wlroots-wayland-display.h"
 #include "wlroots-xcursor-manager.h"
 #include "wlroots-xdg-shell.h"
+#include "wlroots-xdg-surface.h"

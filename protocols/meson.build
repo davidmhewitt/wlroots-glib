@@ -31,12 +31,14 @@ foreach p : protocols
 		output: '@BASENAME@-protocol.c',
 		command: [wayland_scanner, 'private-code', '@INPUT@', '@OUTPUT@'],
 	)
-	wl_protos_headers += custom_target(
+	header = custom_target(
 		xml.underscorify() + '_server_h',
 		input: xml,
 		output: '@BASENAME@-protocol.h',
 		command: [wayland_scanner, 'server-header', '@INPUT@', '@OUTPUT@'],
 	)
+	wl_protos_headers += header
+	install_headers(header.full_path(), subdir: meson.project_name ())
 endforeach
 
 foreach p : client_protocols

@@ -14,6 +14,7 @@ wlroots_glib_sources = [
   'wlroots-wayland-display.c',
   'wlroots-xcursor-manager.c',
   'wlroots-xdg-shell.c',
+  'wlroots-xdg-surface.c',
 ]
 
 wlroots_glib_headers = [
@@ -31,6 +32,7 @@ wlroots_glib_headers = [
   'wlroots-wayland-display.h',
   'wlroots-xcursor-manager.h',
   'wlroots-xdg-shell.h',
+  'wlroots-xdg-surface.h',
 ]
 
 wlroots_glib_enums = gnome.mkenums(
@@ -83,6 +85,7 @@ install_headers(wlroots_glib_headers, subdir: meson.project_name())
 
 gir_args = [
   '--quiet',
+  '-I' + join_paths (meson.build_root (), 'protocols'),
 ]
 
 wlroots_gir = gnome.generate_gir(
@@ -95,7 +98,7 @@ wlroots_gir = gnome.generate_gir(
   namespace : 'Wlroots',
   symbol_prefix : 'wlroots',
   identifier_prefix : 'Wlroots',
-  export_packages : [meson.project_name(), 'Wayland'],
+  export_packages : [meson.project_name()],
   extra_args : gir_args,
   includes: [ 'GObject-2.0' ],
   install : true,

@@ -1,4 +1,4 @@
-/* wlroots-wayland-list.h
+/* wlroots-xdg-surface.h
  *
  * Copyright 2019 David Hewitt <davidmhewitt@gmail.com>
  *
@@ -21,13 +21,14 @@
 #pragma once
 
 #include <glib-object.h>
+#include <wlr/types/wlr_xdg_shell.h>
 
 G_BEGIN_DECLS
 
-#define WLROOTS_TYPE_WAYLAND_LIST (wlroots_wayland_list_get_type())
+#define WLROOTS_TYPE_XDG_SURFACE (wlroots_xdg_surface_get_type())
 
-G_DECLARE_FINAL_TYPE (WlrootsWaylandList, wlroots_wayland_list, WLROOTS, WAYLAND_LIST, GObject)
+G_DECLARE_FINAL_TYPE (WlrootsXDGSurface, wlroots_xdg_surface, WLROOTS, XDG_SURFACE, GObject)
 
-WlrootsWaylandList *wlroots_wayland_list_new (void);
+WlrootsXDGSurface *wlroots_xdg_surface_wrap (struct wlr_xdg_surface *surface);
 
 G_END_DECLS

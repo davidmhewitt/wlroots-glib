@@ -19,6 +19,7 @@
  */
 
 #include "wlroots-xdg-shell.h"
+#include "wlroots-xdg-surface.h"
 #include <wlr/types/wlr_xdg_shell.h>
 #include <wayland-server-core.h>
 
@@ -159,7 +160,8 @@ wlroots_xdg_shell_class_init (WlrootsXDGShellClass *klass)
                   NULL,
                   g_cclosure_marshal_generic,
                   G_TYPE_NONE,
-                  0);
+                  1,
+                  WLROOTS_TYPE_XDG_SURFACE);
 }
 
 static void
