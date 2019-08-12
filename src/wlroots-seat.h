@@ -45,5 +45,9 @@ void wlroots_seat_pointer_notify_axis (WlrootsSeat *self,
                                        gdouble delta,
                                        gint32 delta_discrete,
                                        WlrootsEventAxisSource source);
+void wlroots_seat_pointer_notify_button (WlrootsSeat *self,
+                                         guint32 msec,
+                                         guint32 button,
+                                         WlrootsButtonState state);
 
 G_END_DECLS

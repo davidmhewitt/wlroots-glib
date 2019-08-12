@@ -79,6 +79,18 @@ wlroots_seat_pointer_notify_axis (WlrootsSeat *self,
                                 source);
 }
 
+void
+wlroots_seat_pointer_notify_button (WlrootsSeat *self,
+                                    guint32 msec,
+                                    guint32 button,
+                                    WlrootsButtonState state)
+{
+  wlr_seat_pointer_notify_button (self->wrapped_seat,
+                                  msec,
+                                  button,
+                                  state);
+}
+
 static void
 wlroots_seat_finalize (GObject *object)
 {
