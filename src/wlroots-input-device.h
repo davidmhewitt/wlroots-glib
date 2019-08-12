@@ -31,6 +31,7 @@ G_DECLARE_FINAL_TYPE (WlrootsInputDevice, wlroots_input_device, WLROOTS, INPUT_D
 
 WlrootsInputDevice *wlroots_input_device_wrap (struct wlr_input_device *device);
 struct wlr_input_device *wlroots_input_device_get_wlr_device (WlrootsInputDevice *self);
+gboolean wlroots_input_device_equal (WlrootsInputDevice *a, WlrootsInputDevice *b);
 
 typedef enum {
   WLROOTS_INPUT_DEVICE_TYPE_UNKNOWN,

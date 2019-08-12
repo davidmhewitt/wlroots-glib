@@ -65,6 +65,12 @@ wlroots_input_device_get_wlr_device (WlrootsInputDevice *self)
   return self->wrapped_device;
 }
 
+gboolean
+wlroots_input_device_equal (WlrootsInputDevice *a, WlrootsInputDevice *b)
+{
+  return a->wrapped_device == b->wrapped_device;
+}
+
 static void
 wlroots_input_device_finalize (GObject *object)
 {

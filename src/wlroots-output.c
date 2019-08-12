@@ -24,7 +24,7 @@ struct _WlrootsOutput
 {
   GObject parent_instance;
 
-  struct wlr_output *wlroots_output;
+  struct wlr_output *wrapped_output;
 
   struct wl_listener frame;
 };
@@ -77,7 +77,7 @@ GList *
 wlroots_output_get_modes (WlrootsOutput *self)
 {
   GList *modes = NULL;
-  struct wl_list *wl_modes = &self->wlroots_output->modes;
+  struct wl_list *wl_modes = &self->wrapped_output->modes;
 
   if (wl_list_empty(wl_modes))
     {
@@ -97,19 +97,19 @@ wlroots_output_get_modes (WlrootsOutput *self)
 void
 wlroots_output_set_mode (WlrootsOutput *self, WlrootsOutputMode *mode)
 {
-  wlr_output_set_mode (self->wlroots_output, mode->wlr_mode);
+  wlr_output_set_mode (self->wrapped_output, mode->wlr_mode);
 }
 
 struct wlr_output *
 wlroots_output_get_wlr_output (WlrootsOutput *self)
 {
-  return self->wlroots_output;
+  return self->wrapped_output;
 }
 
 void
 wlroots_output_create_global (WlrootsOutput *self)
 {
-  wlr_output_create_global (self->wlroots_output);
+  wlr_output_create_global (self->wrapped_output);
 }
 
 /**
@@ -123,7 +123,7 @@ wlroots_output_create_global (WlrootsOutput *self)
 gboolean
 wlroots_output_attach_render (WlrootsOutput *self, int *buffer_age)
 {
-  return wlr_output_attach_render (self->wlroots_output, buffer_age);
+  return wlr_output_attach_render (self->wrapped_output, buffer_age);
 }
 
 /**
@@ -136,19 +136,25 @@ wlroots_output_attach_render (WlrootsOutput *self, int *buffer_age)
 void
 wlroots_output_effective_resolution (WlrootsOutput *self, int *width, int *height)
 {
-  wlr_output_effective_resolution (self->wlroots_output, width, height);
+  wlr_output_effective_resolution (self->wrapped_output, width, height);
 }
 
 void
 wlroots_output_commit (WlrootsOutput *self)
 {
-  wlr_output_commit (self->wlroots_output);
+  wlr_output_commit (self->wrapped_output);
 }
 
 void
 wlroots_output_render_software_cursors (WlrootsOutput *self)
 {
-  wlr_output_render_software_cursors (self->wlroots_output, NULL);
+  wlr_output_render_software_cursors (self->wrapped_output, NULL);
+}
+
+gboolean
+wlroots_output_equal (WlrootsOutput *a, WlrootsOutput *b)
+{
+  return a->wrapped_output == b->wrapped_output;
 }
 
 static void
@@ -162,7 +168,7 @@ wlroots_output_get_property (GObject    *object,
   switch (prop_id)
     {
     case PROP_WLROOTS_OUTPUT:
-      g_value_set_pointer (value, self->wlroots_output);
+      g_value_set_pointer (value, self->wrapped_output);
       break;
     case PROP_MODES:
       g_value_set_pointer (value, wlroots_output_get_modes (self));
@@ -182,7 +188,7 @@ wlroots_output_set_property (GObject      *object,
   switch (prop_id)
     {
     case PROP_WLROOTS_OUTPUT:
-      self->wlroots_output = g_value_get_pointer (value);
+      self->wrapped_output = g_value_get_pointer (value);
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -204,7 +210,7 @@ wlroots_output_constructed (GObject *obj)
 
   self->frame.notify = output_frame;
 
-  wl_signal_add (&self->wlroots_output->events.frame, &self->frame);
+  wl_signal_add (&self->wrapped_output->events.frame, &self->frame);
 
   G_OBJECT_CLASS(wlroots_output_parent_class)->constructed (obj);
 }

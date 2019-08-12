@@ -113,6 +113,12 @@ wlroots_xdg_surface_get_toplevel (WlrootsXDGSurface *self)
   return self->toplevel;
 }
 
+gboolean
+wlroots_xdg_surface_equal (WlrootsXDGSurface *a, WlrootsXDGSurface *b)
+{
+  return a->wrapped_surface == b->wrapped_surface;
+}
+
 static gint
 wlr_xdg_surface_role_to_wlroots_xdg_surface_role (gint type)
 {

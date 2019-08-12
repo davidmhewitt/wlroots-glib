@@ -34,6 +34,7 @@ G_DECLARE_FINAL_TYPE (WlrootsXDGSurface, wlroots_xdg_surface, WLROOTS, XDG_SURFA
 WlrootsXDGSurface *wlroots_xdg_surface_wrap (struct wlr_xdg_surface *surface);
 WlrootsXDGToplevel *wlroots_xdg_surface_get_toplevel (WlrootsXDGSurface *self);
 void wlroots_xdg_surface_get_geometry (WlrootsXDGSurface *self, WlrootsBox **box);
+gboolean wlroots_xdg_surface_equal (WlrootsXDGSurface *a, WlrootsXDGSurface *b);
 
 typedef enum {
   WLROOTS_XDG_SURFACE_ROLE_NONE,

@@ -30,5 +30,6 @@ G_BEGIN_DECLS
 G_DECLARE_FINAL_TYPE (WlrootsXDGToplevel, wlroots_xdg_toplevel, WLROOTS, XDG_TOPLEVEL, GObject)
 
 WlrootsXDGToplevel *wlroots_xdg_toplevel_wrap (struct wlr_xdg_toplevel *toplevel);
+gboolean wlroots_xdg_toplevel_equal (WlrootsXDGToplevel *a, WlrootsXDGToplevel *b);
 
 G_END_DECLS

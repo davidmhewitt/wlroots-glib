@@ -67,6 +67,12 @@ wlroots_xdg_toplevel_wrap (struct wlr_xdg_toplevel *toplevel)
   return g_object_new (WLROOTS_TYPE_XDG_TOPLEVEL, "xdg-toplevel", toplevel, NULL);
 }
 
+gboolean
+wlroots_xdg_toplevel_equal (WlrootsXDGToplevel *a, WlrootsXDGToplevel *b)
+{
+  return a->wrapped_toplevel == b->wrapped_toplevel;
+}
+
 static void
 wlroots_xdg_toplevel_finalize (GObject *object)
 {

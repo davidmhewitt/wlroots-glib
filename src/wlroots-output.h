@@ -40,6 +40,7 @@ gboolean wlroots_output_attach_render (WlrootsOutput *self, int *buffer_age);
 void wlroots_output_effective_resolution (WlrootsOutput *self, int *width, int *height);
 void wlroots_output_commit (WlrootsOutput *self);
 void wlroots_output_render_software_cursors (WlrootsOutput *self);
+gboolean wlroots_output_equal (WlrootsOutput *a, WlrootsOutput *b);
 
 /**
  * WlrootsOutputMode:
