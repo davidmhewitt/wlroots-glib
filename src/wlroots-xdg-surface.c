@@ -88,6 +88,43 @@ wlroots_xdg_surface_get_geometry (WlrootsXDGSurface *self, WlrootsBox **box)
   *box = wlroots_box_wrap (&geometry);
 }
 
+struct foreach_data {
+	WlrootsXDGSurfaceFunc func;
+	gpointer user_data;
+};
+
+static void
+xdg_surface_for_each (struct wlr_surface *surface, int sx, int sy, void *data)
+{
+  struct foreach_data *callback_data = data;
+  WlrootsXDGSurfaceFunc func = callback_data->func;
+  gpointer user_data = callback_data->user_data;
+
+  WlrootsSurface* wrapped_surface = wlroots_surface_wrap (surface);
+
+  (*func)(wrapped_surface, sx, sy, user_data);
+
+  g_object_unref (wrapped_surface);
+}
+
+/**
+ * wlroots_xdg_surface_for_each_surface:
+ * @func: (scope call): The #XDGSurfaceFunc to be applied to each surface
+ * @user_data: user data passed to @func at each call
+ *
+ * Since: 0.1
+ */
+void
+wlroots_xdg_surface_for_each_surface (WlrootsXDGSurface *self, WlrootsXDGSurfaceFunc func, gpointer user_data)
+{
+  struct foreach_data callback_data = {
+			.func = func,
+			.user_data = user_data,
+	};
+
+  wlr_xdg_surface_for_each_surface (self->wrapped_surface, xdg_surface_for_each, &callback_data);
+}
+
 static void
 wlroots_xdg_surface_finalize (GObject *object)
 {

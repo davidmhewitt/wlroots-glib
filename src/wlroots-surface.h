@@ -1,4 +1,4 @@
-/* wlroots-output-layout.h
+/* wlroots-surface.h
  *
  * Copyright 2019 David Hewitt <davidmhewitt@gmail.com>
  *
@@ -21,17 +21,14 @@
 #pragma once
 
 #include <glib-object.h>
-#include "wlroots-output.h"
+#include "wlroots-texture.h"
 
 G_BEGIN_DECLS
 
-#define WLROOTS_TYPE_OUTPUT_LAYOUT (wlroots_output_layout_get_type())
+#define WLROOTS_TYPE_SURFACE (wlroots_surface_get_type())
 
-G_DECLARE_FINAL_TYPE (WlrootsOutputLayout, wlroots_output_layout, WLROOTS, OUTPUT_LAYOUT, GObject)
+G_DECLARE_FINAL_TYPE (WlrootsSurface, wlroots_surface, WLROOTS, SURFACE, GObject)
 
-WlrootsOutputLayout *wlroots_output_layout_new (void);
-void wlroots_output_layout_add_auto (WlrootsOutputLayout *self, WlrootsOutput *mode);
-struct wlr_output_layout *wlroots_output_layout_get_wlr_output_layout (WlrootsOutputLayout *self);
-void wlroots_output_layout_output_coords (WlrootsOutputLayout *self, WlrootsOutput *output, gdouble *ox, gdouble *oy);
-
+WlrootsSurface *wlroots_surface_wrap (struct wlr_surface *surface);
+WlrootsTexture *wlroots_surface_get_texture (WlrootsSurface *self);
 G_END_DECLS

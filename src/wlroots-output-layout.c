@@ -55,6 +55,21 @@ wlroots_output_layout_get_wlr_output_layout (WlrootsOutputLayout *self)
   return self->wrapped_output_layout;
 }
 
+/**
+ * wlroots_output_layout_output_coords:
+ * @output: (transfer none): The #WlrootsOutput to get the position of
+ * @ox: (out): Pointer to double where to return x value
+ * @oy: (out): Pointer to double where to return y value
+ *
+ * Since: 0.1
+ */
+void
+wlroots_output_layout_output_coords (WlrootsOutputLayout *self, WlrootsOutput *output, gdouble *ox, gdouble *oy)
+{
+  struct wlr_output *wlroots_output = wlroots_output_get_wlr_output (output);
+  wlr_output_layout_output_coords (self->wrapped_output_layout, output, ox, oy);
+}
+
 static void
 wlroots_output_layout_finalize (GObject *object)
 {

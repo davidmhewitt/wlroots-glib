@@ -35,6 +35,7 @@ enum {
   PROP_0,
   PROP_WLROOTS_OUTPUT,
   PROP_MODES,
+  PROP_SCALE,
   N_PROPS
 };
 
@@ -172,6 +173,10 @@ wlroots_output_get_property (GObject    *object,
       break;
     case PROP_MODES:
       g_value_set_pointer (value, wlroots_output_get_modes (self));
+      break;
+    case PROP_SCALE:
+      g_value_set_float (value, self->wrapped_output->scale);
+      break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
     }
@@ -238,6 +243,17 @@ wlroots_output_class_init (WlrootsOutputClass *klass)
                           "Modes",
                           (G_PARAM_READABLE |
                            G_PARAM_STATIC_STRINGS));
+
+  properties [PROP_SCALE] =
+    g_param_spec_float ("scale",
+                        "Scale",
+                        "Scale",
+                        G_MINFLOAT,
+                        G_MAXFLOAT,
+                        1.0f,
+
+                        (G_PARAM_READABLE |
+                         G_PARAM_STATIC_STRINGS));
 
   g_object_class_install_properties (object_class, N_PROPS, properties);
 

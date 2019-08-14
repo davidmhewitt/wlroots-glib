@@ -29,6 +29,8 @@
 #include "wlroots-output-layout.h"
 #include "wlroots-renderer.h"
 #include "wlroots-seat.h"
+#include "wlroots-surface.h"
+#include "wlroots-texture.h"
 #include "wlroots-wayland-display.h"
 #include "wlroots-xcursor-manager.h"
 #include "wlroots-xdg-shell.h"
