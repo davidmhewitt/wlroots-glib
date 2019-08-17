@@ -20,6 +20,7 @@
 
 #include <wlr/types/wlr_surface.h>
 #include "wlroots-surface.h"
+#include "wlroots-surface-state.h"
 
 struct _WlrootsSurface
 {
@@ -33,6 +34,7 @@ G_DEFINE_TYPE (WlrootsSurface, wlroots_surface, G_TYPE_OBJECT)
 enum {
   PROP_0,
   PROP_WLROOTS_SURFACE,
+  PROP_CURRENT,
   N_PROPS
 };
 
@@ -89,6 +91,9 @@ wlroots_surface_get_property (GObject    *object,
     case PROP_WLROOTS_SURFACE:
       g_value_set_pointer (value, self->wrapped_surface);
       break;
+    case PROP_CURRENT:
+      g_value_set_object (value, wlroots_surface_state_wrap (&self->wrapped_surface->current));
+      break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
     }
@@ -129,6 +134,15 @@ wlroots_surface_class_init (WlrootsSurfaceClass *klass)
                           (G_PARAM_READWRITE |
                            G_PARAM_CONSTRUCT_ONLY |
                            G_PARAM_STATIC_STRINGS));
+
+  properties [PROP_CURRENT] =
+    g_param_spec_object ("current",
+                         "Current",
+                         "Current",
+                         WLROOTS_TYPE_SURFACE_STATE,
+                         (G_PARAM_READABLE |
+                          G_PARAM_STATIC_STRINGS));
+
   g_object_class_install_properties (object_class, N_PROPS, properties);
 }
 

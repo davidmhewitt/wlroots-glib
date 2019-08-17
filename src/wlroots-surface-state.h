@@ -1,4 +1,4 @@
-/* wlroots-glib.h
+/* wlroots-surface-state.h
  *
  * Copyright 2019 David Hewitt <davidmhewitt@gmail.com>
  *
@@ -18,22 +18,17 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-#include "wlroots-backend.h"
-#include "wlroots-box.h"
-#include "wlroots-compositor.h"
-#include "wlroots-cursor.h"
-#include "wlroots-data-device-manager.h"
-#include "wlroots-events.h"
-#include "wlroots-input-device.h"
-#include "wlroots-output.h"
-#include "wlroots-output-layout.h"
-#include "wlroots-renderer.h"
-#include "wlroots-seat.h"
-#include "wlroots-surface.h"
-#include "wlroots-surface-state.h"
-#include "wlroots-texture.h"
-#include "wlroots-wayland-display.h"
-#include "wlroots-xcursor-manager.h"
-#include "wlroots-xdg-shell.h"
-#include "wlroots-xdg-surface.h"
-#include "wlroots-xdg-toplevel.h"
+#pragma once
+
+#include <glib-object.h>
+#include <wlr/types/wlr_surface.h>
+
+G_BEGIN_DECLS
+
+#define WLROOTS_TYPE_SURFACE_STATE (wlroots_surface_state_get_type())
+
+G_DECLARE_FINAL_TYPE (WlrootsSurfaceState, wlroots_surface_state, WLROOTS, SURFACE_STATE, GObject)
+
+WlrootsSurfaceState *wlroots_surface_state_wrap (struct wlr_surface_state *state);
+
+G_END_DECLS
