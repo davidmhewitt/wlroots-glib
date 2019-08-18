@@ -1,2 +1,58 @@
+Backend
+	.wayland_display skip
+Compositor
+	.wlroots_compositor skip
+Cursor
+	.get_wlr_cursor skip
+DataDeviceManager
+	.wlroots_data_device_manager skip
+EventPointerAxis
+	.new skip
+EventPointerButton
+	.new skip
+EventPointerMotion
+	.new skip
+EventPointerMotionAbsolute
+	.new skip
+InputDevice
+	.get_wlr_device skip
+	.wrap skip
+	.wlroots_input_device skip
+Output
+	.get_wlr_output skip
+	.wrap skip
+	.modes skip
+	.transform_matrix skip
+	.wlroots_output skip
+OutputLayout
+	.get_wlr_output_layout skip
+OutputMode
+	.wlr_mode skip
+	.new skip
+Renderer
+	.get_wlr_renderer skip
+	.wrap skip
+	.wlr_renderer skip
+Seat
+	.wayland_display skip
 Surface
 	.send_frame_done.when type="Posix.timespec" ctype="struct timespec*"
+	.wlroots_surface skip
+SurfaceState
+	.wrap skip
+	.wlroots_surface_state skip
+Texture
+	.get_wlr_texture skip
+	.wlroots_texture skip
+WaylandDisplay
+	.get_wl_display skip
+XDGShell
+	.wayland_display skip
+XDGSurface
+	.wrap skip
+	.xdg_surface skip
+XDGToplevel
+	.wrap skip
+	.xdg_toplevel skip
+
+	
