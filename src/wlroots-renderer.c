@@ -94,6 +94,20 @@ wlroots_renderer_clear (WlrootsRenderer *self, const float color[])
   wlr_renderer_clear (self->wrapped_renderer, color);
 }
 
+/**
+ * wlroots_renderer_render_texture_with_matrix:
+ * @texture: The #WlrootsTexture to render
+ * @matrix: (array fixed-size=9): The matrix to use
+ *
+ * Since: 0.1
+ */
+void
+wlroots_renderer_render_texture_with_matrix (WlrootsRenderer *self, WlrootsTexture *texture, gfloat matrix[], gfloat alpha)
+{
+  struct wlr_texture *tex = wlroots_texture_get_wlr_texture (texture);
+  wlr_render_texture_with_matrix (self->wrapped_renderer, tex, matrix, alpha);
+}
+
 static void
 wlroots_renderer_get_property (GObject    *object,
                                guint       prop_id,

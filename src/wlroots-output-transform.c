@@ -1,4 +1,4 @@
-/* wlroots-surface.h
+/* wlroots-output-transform.c
  *
  * Copyright 2019 David Hewitt <davidmhewitt@gmail.com>
  *
@@ -18,19 +18,11 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-#pragma once
+#include <wlr/types/wlr_output.h>
+#include "wlroots-output-transform.h"
 
-#include <glib-object.h>
-#include "wlroots-texture.h"
-
-G_BEGIN_DECLS
-
-#define WLROOTS_TYPE_SURFACE (wlroots_surface_get_type())
-
-G_DECLARE_FINAL_TYPE (WlrootsSurface, wlroots_surface, WLROOTS, SURFACE, GObject)
-
-WlrootsSurface *wlroots_surface_wrap (struct wlr_surface *surface);
-WlrootsTexture *wlroots_surface_get_texture (WlrootsSurface *self);
-void wlroots_surface_send_frame_done (WlrootsSurface *self, struct timespec *when);
-
-G_END_DECLS
+WlrootsWaylandOutputTransform
+wlroots_wayland_output_transform_invert (WlrootsWaylandOutputTransform transform)
+{
+  return wlr_output_transform_invert (transform);
+}

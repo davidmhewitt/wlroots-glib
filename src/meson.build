@@ -8,8 +8,10 @@ wlroots_glib_sources = [
   'wlroots-data-device-manager.c',
   'wlroots-events.c',
   'wlroots-input-device.c',
+  'wlroots-matrix.c',
   'wlroots-output.c',
   'wlroots-output-layout.c',
+  'wlroots-output-transform.c',
   'wlroots-renderer.c',
   'wlroots-seat.c',
   'wlroots-surface.c',
@@ -31,8 +33,10 @@ wlroots_glib_headers = [
   'wlroots-data-device-manager.h',
   'wlroots-events.h',
   'wlroots-input-device.h',
+  'wlroots-matrix.h',
   'wlroots-output.h',
   'wlroots-output-layout.h',
+  'wlroots-output-transform.h',
   'wlroots-renderer.h',
   'wlroots-seat.h',
   'wlroots-surface.h',
@@ -118,7 +122,7 @@ wlroots_gir = gnome.generate_gir(
 gnome.generate_vapi(
   meson.project_name() + '-' + api_version,
   sources: wlroots_gir[0],
-  packages: 'glib-2.0',
+  packages: ['glib-2.0', 'posix'],
   install: true
 )
 

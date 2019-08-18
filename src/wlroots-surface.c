@@ -70,6 +70,12 @@ wlroots_surface_get_texture (WlrootsSurface *self)
   return wlroots_texture_wrap (texture);
 }
 
+void
+wlroots_surface_send_frame_done (WlrootsSurface *self, struct timespec *when)
+{
+  wlr_surface_send_frame_done (self->wrapped_surface, when);
+}
+
 static void
 wlroots_surface_finalize (GObject *object)
 {

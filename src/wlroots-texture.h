@@ -30,5 +30,6 @@ G_BEGIN_DECLS
 G_DECLARE_FINAL_TYPE (WlrootsTexture, wlroots_texture, WLROOTS, TEXTURE, GObject)
 
 WlrootsTexture *wlroots_texture_wrap (struct wlr_texture *texture);
+struct wlr_texture *wlroots_texture_get_wlr_texture (WlrootsTexture *self);
 
 G_END_DECLS

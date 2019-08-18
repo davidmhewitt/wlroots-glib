@@ -49,6 +49,12 @@ wlroots_texture_wrap (struct wlr_texture *texture)
   return g_object_new (WLROOTS_TYPE_TEXTURE, "wlroots-texture", texture, NULL);
 }
 
+struct wlr_texture *
+wlroots_texture_get_wlr_texture (WlrootsTexture *self)
+{
+  return self->wrapped_texture;
+}
+
 static void
 wlroots_texture_finalize (GObject *object)
 {

@@ -23,6 +23,7 @@
 #include <glib-object.h>
 #include <wlr/render/wlr_renderer.h>
 #include "wlroots-wayland-display.h"
+#include "wlroots-texture.h"
 
 G_BEGIN_DECLS
 
@@ -36,5 +37,6 @@ struct wlr_renderer *wlroots_renderer_get_wlr_renderer (WlrootsRenderer *self);
 void wlroots_renderer_begin (WlrootsRenderer *self, int width, int height);
 void wlroots_renderer_end (WlrootsRenderer *self);
 void wlroots_renderer_clear (WlrootsRenderer *self, const float color[]);
+void wlroots_renderer_render_texture_with_matrix (WlrootsRenderer *self, WlrootsTexture *texture, gfloat matrix[], gfloat alpha);
 
 G_END_DECLS

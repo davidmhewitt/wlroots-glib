@@ -1,4 +1,4 @@
-/* wlroots-surface.h
+/* wlroots-output-transform.h
  *
  * Copyright 2019 David Hewitt <davidmhewitt@gmail.com>
  *
@@ -21,16 +21,20 @@
 #pragma once
 
 #include <glib-object.h>
-#include "wlroots-texture.h"
 
 G_BEGIN_DECLS
 
-#define WLROOTS_TYPE_SURFACE (wlroots_surface_get_type())
+typedef enum {
+  WLROOTS_WAYLAND_OUTPUT_TRANSFORM_NORMAL,
+  WLROOTS_WAYLAND_OUTPUT_TRANSFORM_90,
+  WLROOTS_WAYLAND_OUTPUT_TRANSFORM_180,
+  WLROOTS_WAYLAND_OUTPUT_TRANSFORM_270,
+  WLROOTS_WAYLAND_OUTPUT_TRANSFORM_FLIPPED,
+  WLROOTS_WAYLAND_OUTPUT_TRANSFORM_FLIPPED_90,
+  WLROOTS_WAYLAND_OUTPUT_TRANSFORM_FLIPPED_180,
+  WLROOTS_WAYLAND_OUTPUT_TRANSFORM_FLIPPED_270,
+} WlrootsWaylandOutputTransform;
 
-G_DECLARE_FINAL_TYPE (WlrootsSurface, wlroots_surface, WLROOTS, SURFACE, GObject)
-
-WlrootsSurface *wlroots_surface_wrap (struct wlr_surface *surface);
-WlrootsTexture *wlroots_surface_get_texture (WlrootsSurface *self);
-void wlroots_surface_send_frame_done (WlrootsSurface *self, struct timespec *when);
+WlrootsWaylandOutputTransform wlroots_wayland_output_transform_invert (WlrootsWaylandOutputTransform transform);
 
 G_END_DECLS

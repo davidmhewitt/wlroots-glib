@@ -67,7 +67,7 @@ void
 wlroots_output_layout_output_coords (WlrootsOutputLayout *self, WlrootsOutput *output, gdouble *ox, gdouble *oy)
 {
   struct wlr_output *wlroots_output = wlroots_output_get_wlr_output (output);
-  wlr_output_layout_output_coords (self->wrapped_output_layout, output, ox, oy);
+  wlr_output_layout_output_coords (self->wrapped_output_layout, wlroots_output, ox, oy);
 }
 
 static void

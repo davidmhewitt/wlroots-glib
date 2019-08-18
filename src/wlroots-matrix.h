@@ -1,4 +1,4 @@
-/* wlroots-surface.h
+/* wlroots-matrix.h
  *
  * Copyright 2019 David Hewitt <davidmhewitt@gmail.com>
  *
@@ -20,17 +20,12 @@
 
 #pragma once
 
-#include <glib-object.h>
-#include "wlroots-texture.h"
+#include <glib.h>
+#include "wlroots-box.h"
+#include "wlroots-output-transform.h"
 
 G_BEGIN_DECLS
 
-#define WLROOTS_TYPE_SURFACE (wlroots_surface_get_type())
-
-G_DECLARE_FINAL_TYPE (WlrootsSurface, wlroots_surface, WLROOTS, SURFACE, GObject)
-
-WlrootsSurface *wlroots_surface_wrap (struct wlr_surface *surface);
-WlrootsTexture *wlroots_surface_get_texture (WlrootsSurface *self);
-void wlroots_surface_send_frame_done (WlrootsSurface *self, struct timespec *when);
+void wlroots_matrix_project_box (gfloat mat[], WlrootsBox *box, WlrootsWaylandOutputTransform transform, gfloat rotation, const gfloat projection[]);
 
 G_END_DECLS

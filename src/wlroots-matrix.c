@@ -1,4 +1,4 @@
-/* wlroots-surface.h
+/* wlroots-matrix.c
  *
  * Copyright 2019 David Hewitt <davidmhewitt@gmail.com>
  *
@@ -18,19 +18,30 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-#pragma once
+#include "wlroots-matrix.h"
+#include <wlr/types/wlr_matrix.h>
 
-#include <glib-object.h>
-#include "wlroots-texture.h"
+/**
+ * wlroots_matrix_project_box:
+ * @mat: (array fixed-size=9)(out): The returned matrix
+ * @projection: (array fixed-size=9): The projection
+ *
+ * Since: 0.1
+ */
+void wlroots_matrix_project_box (gfloat mat[],
+                                 WlrootsBox *box,
+                                 WlrootsWaylandOutputTransform transform,
+                                 gfloat rotation,
+                                 const gfloat projection[])
+{
+  struct wlr_box roots_box = {
+		.x = box->x,
+		.y = box->y,
+		.width = box->width,
+		.height = box->height,
+	};
 
-G_BEGIN_DECLS
+  wlr_matrix_project_box (mat, &roots_box, transform, rotation, projection);
+}
 
-#define WLROOTS_TYPE_SURFACE (wlroots_surface_get_type())
 
-G_DECLARE_FINAL_TYPE (WlrootsSurface, wlroots_surface, WLROOTS, SURFACE, GObject)
-
-WlrootsSurface *wlroots_surface_wrap (struct wlr_surface *surface);
-WlrootsTexture *wlroots_surface_get_texture (WlrootsSurface *self);
-void wlroots_surface_send_frame_done (WlrootsSurface *self, struct timespec *when);
-
-G_END_DECLS

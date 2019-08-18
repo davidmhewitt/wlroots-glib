@@ -36,6 +36,7 @@ enum {
   PROP_WLROOTS_OUTPUT,
   PROP_MODES,
   PROP_SCALE,
+  PROP_TRANSFORM_MATRIX,
   N_PROPS
 };
 
@@ -158,6 +159,19 @@ wlroots_output_equal (WlrootsOutput *a, WlrootsOutput *b)
   return a->wrapped_output == b->wrapped_output;
 }
 
+/**
+ * wlroots_output_get_transform_matrix:
+ *
+ * Returns: (array fixed-size=9) (element-type gfloat): The transform matrix
+ *
+ * Since: 0.1
+ */
+gfloat *
+wlroots_output_get_transform_matrix (WlrootsOutput *self)
+{
+  return self->wrapped_output->transform_matrix;
+}
+
 static void
 wlroots_output_get_property (GObject    *object,
                              guint       prop_id,
@@ -176,6 +190,9 @@ wlroots_output_get_property (GObject    *object,
       break;
     case PROP_SCALE:
       g_value_set_float (value, self->wrapped_output->scale);
+      break;
+    case PROP_TRANSFORM_MATRIX:
+      g_value_set_boxed (value, wlroots_output_get_transform_matrix (self));
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -248,12 +265,20 @@ wlroots_output_class_init (WlrootsOutputClass *klass)
     g_param_spec_float ("scale",
                         "Scale",
                         "Scale",
-                        G_MINFLOAT,
+                        0.0f,
                         G_MAXFLOAT,
                         1.0f,
 
                         (G_PARAM_READABLE |
                          G_PARAM_STATIC_STRINGS));
+
+  properties [PROP_TRANSFORM_MATRIX] =
+    g_param_spec_pointer ("transform-matrix",
+                          "TransformMatrix",
+                          "TransformMatrix",
+
+                          (G_PARAM_READABLE |
+                           G_PARAM_STATIC_STRINGS));
 
   g_object_class_install_properties (object_class, N_PROPS, properties);
 

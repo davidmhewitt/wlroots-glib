@@ -41,6 +41,7 @@ void wlroots_output_effective_resolution (WlrootsOutput *self, int *width, int *
 void wlroots_output_commit (WlrootsOutput *self);
 void wlroots_output_render_software_cursors (WlrootsOutput *self);
 gboolean wlroots_output_equal (WlrootsOutput *a, WlrootsOutput *b);
+gfloat *wlroots_output_get_transform_matrix (WlrootsOutput *self);
 
 /**
  * WlrootsOutputMode:

@@ -19,6 +19,8 @@
  */
 
 #include "wlroots-surface-state.h"
+#include "wlroots-output-transform.h"
+#include "wlroots-enum-types.h"
 
 struct _WlrootsSurfaceState
 {
@@ -34,6 +36,7 @@ enum {
   PROP_WLROOTS_SURFACE_STATE,
   PROP_WIDTH,
   PROP_HEIGHT,
+  PROP_TRANSFORM,
   N_PROPS
 };
 
@@ -86,6 +89,9 @@ wlroots_surface_state_get_property (GObject    *object,
       break;
     case PROP_HEIGHT:
       g_value_set_int (value, self->wrapped_surface_state->height);
+      break;
+    case PROP_TRANSFORM:
+      g_value_set_enum (value, self->wrapped_surface_state->transform);
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -147,6 +153,20 @@ wlroots_surface_state_class_init (WlrootsSurfaceStateClass *klass)
                       0,
                       (G_PARAM_READABLE |
                        G_PARAM_STATIC_STRINGS));
+
+  /**
+   * WlrootsSurfaceState:transform: (type WlrootsWaylandOutputTransform)
+   *
+   * The transformation.
+   */
+  properties [PROP_TRANSFORM] =
+    g_param_spec_enum ("transform",
+                       "Transform",
+                       "Transform",
+                       WLROOTS_TYPE_WAYLAND_OUTPUT_TRANSFORM,
+                       WLROOTS_WAYLAND_OUTPUT_TRANSFORM_NORMAL,
+                       (G_PARAM_READABLE |
+                        G_PARAM_STATIC_STRINGS));
 
   g_object_class_install_properties (object_class, N_PROPS, properties);
 }

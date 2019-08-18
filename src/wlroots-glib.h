@@ -27,6 +27,7 @@
 #include "wlroots-input-device.h"
 #include "wlroots-output.h"
 #include "wlroots-output-layout.h"
+#include "wlroots-output-transform.h"
 #include "wlroots-renderer.h"
 #include "wlroots-seat.h"
 #include "wlroots-surface.h"
