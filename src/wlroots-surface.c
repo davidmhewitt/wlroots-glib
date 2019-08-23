@@ -76,6 +76,12 @@ wlroots_surface_send_frame_done (WlrootsSurface *self, struct timespec *when)
   wlr_surface_send_frame_done (self->wrapped_surface, when);
 }
 
+struct wlr_surface *
+wlroots_surface_get_wlr_surface (WlrootsSurface *self)
+{
+  return self->wrapped_surface;
+}
+
 static void
 wlroots_surface_finalize (GObject *object)
 {

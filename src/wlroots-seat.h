@@ -23,6 +23,7 @@
 #include <glib-object.h>
 #include "wlroots-wayland-display.h"
 #include "wlroots-events.h"
+#include "wlroots-surface.h"
 
 G_BEGIN_DECLS
 
@@ -49,5 +50,14 @@ void wlroots_seat_pointer_notify_button (WlrootsSeat *self,
                                          guint32 msec,
                                          guint32 button,
                                          WlrootsButtonState state);
+void wlroots_seat_pointer_notify_enter (WlrootsSeat *self,
+                                        WlrootsSurface *surface,
+                                        gdouble sx,
+                                        gdouble sy);
+void wlroots_seat_pointer_clear_focus (WlrootsSeat *self);
+void wlroots_seat_pointer_notify_motion (WlrootsSeat *self,
+                                         guint32 msec,
+                                         gdouble x,
+                                         gdouble y);
 
 G_END_DECLS

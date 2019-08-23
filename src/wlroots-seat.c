@@ -64,12 +64,12 @@ wlroots_seat_set_capabilities (WlrootsSeat *self, WlrootsWaylandSeatCapability c
 }
 
 void
-wlroots_seat_pointer_notify_axis (WlrootsSeat *self,
-                                  guint32 msec,
-                                  WlrootsEventAxisOrientation orientation,
-                                  gdouble delta,
-                                  gint32 delta_discrete,
-                                  WlrootsEventAxisSource source)
+wlroots_seat_pointer_notify_axis (WlrootsSeat                 *self,
+                                  guint32                      msec,
+                                  WlrootsEventAxisOrientation  orientation,
+                                  gdouble                      delta,
+                                  gint32                       delta_discrete,
+                                  WlrootsEventAxisSource       source)
 {
   wlr_seat_pointer_notify_axis (self->wrapped_seat,
                                 msec,
@@ -80,15 +80,41 @@ wlroots_seat_pointer_notify_axis (WlrootsSeat *self,
 }
 
 void
-wlroots_seat_pointer_notify_button (WlrootsSeat *self,
-                                    guint32 msec,
-                                    guint32 button,
-                                    WlrootsButtonState state)
+wlroots_seat_pointer_notify_button (WlrootsSeat        *self,
+                                    guint32             msec,
+                                    guint32             button,
+                                    WlrootsButtonState  state)
 {
   wlr_seat_pointer_notify_button (self->wrapped_seat,
                                   msec,
                                   button,
                                   state);
+}
+
+void
+wlroots_seat_pointer_notify_enter (WlrootsSeat    *self,
+                                   WlrootsSurface *surface,
+                                   gdouble         sx,
+                                   gdouble         sy)
+{
+  struct wlr_surface *_surface;
+  _surface = wlroots_surface_get_wlr_surface (surface);
+  wlr_seat_pointer_notify_enter (self->wrapped_seat, _surface, sx, sy);
+}
+
+void
+wlroots_seat_pointer_clear_focus (WlrootsSeat *self)
+{
+  wlr_seat_pointer_clear_focus (self->wrapped_seat);
+}
+
+void
+wlroots_seat_pointer_notify_motion (WlrootsSeat *self,
+                                    guint32      msec,
+                                    gdouble      x,
+                                    gdouble      y)
+{
+  wlr_seat_pointer_notify_motion (self->wrapped_seat, msec, x, y);
 }
 
 static void

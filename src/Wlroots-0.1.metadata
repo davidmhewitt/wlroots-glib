@@ -36,6 +36,7 @@ Renderer
 Seat
 	.wayland_display skip
 Surface
+	.get_wlr_surface skip
 	.send_frame_done.when type="Posix.timespec" ctype="struct timespec*"
 	.wlroots_surface skip
 SurfaceState

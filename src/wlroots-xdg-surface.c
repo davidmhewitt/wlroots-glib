@@ -150,6 +150,28 @@ wlroots_xdg_surface_get_toplevel (WlrootsXDGSurface *self)
   return self->toplevel;
 }
 
+/**
+ * wlroots_xdg_surface_surface_at:
+ * @sx: (out): The x co-ordinate of the top left of the touched surface
+ * @sy: (out): The y co-ordinate of the top left of the touched surface
+ *
+ * Returns: (nullable) (transfer full): The #WlrootsSurface at the location or NULL
+ *
+ * Since: 0.1
+ */
+WlrootsSurface *
+wlroots_xdg_surface_surface_at (WlrootsXDGSurface *self, gdouble lx, gdouble ly, gdouble *sx, gdouble *sy)
+{
+  struct wlr_surface *_surface;
+  _surface = wlr_xdg_surface_surface_at (self->wrapped_surface, lx, ly, sx, sy);
+
+  if (!_surface) {
+    return NULL;
+  }
+
+  return wlroots_surface_wrap (_surface);
+}
+
 gboolean
 wlroots_xdg_surface_equal (WlrootsXDGSurface *a, WlrootsXDGSurface *b)
 {

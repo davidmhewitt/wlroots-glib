@@ -39,6 +39,8 @@ G_DEFINE_TYPE (WlrootsCursor, wlroots_cursor, G_TYPE_OBJECT)
 
 enum {
   PROP_0,
+  PROP_X,
+  PROP_Y,
   N_PROPS
 };
 
@@ -112,6 +114,12 @@ wlroots_cursor_get_property (GObject    *object,
 
   switch (prop_id)
     {
+    case PROP_X:
+      g_value_set_double (value, self->wrapped_cursor->x);
+      break;
+    case PROP_Y:
+      g_value_set_double (value, self->wrapped_cursor->y);
+      break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
     }
@@ -140,6 +148,29 @@ wlroots_cursor_class_init (WlrootsCursorClass *klass)
   object_class->finalize = wlroots_cursor_finalize;
   object_class->get_property = wlroots_cursor_get_property;
   object_class->set_property = wlroots_cursor_set_property;
+
+  properties [PROP_X] =
+    g_param_spec_double ("x",
+                         "X",
+                         "X",
+                         -G_MAXDOUBLE,
+                         G_MAXDOUBLE,
+                         0,
+
+                         (G_PARAM_READABLE |
+                          G_PARAM_STATIC_STRINGS));
+
+  properties [PROP_Y] =
+    g_param_spec_double ("y",
+                         "Y",
+                         "Y",
+                         -G_MAXDOUBLE,
+                         G_MAXDOUBLE,
+                         0,
+                         (G_PARAM_READABLE |
+                          G_PARAM_STATIC_STRINGS));
+
+  g_object_class_install_properties (object_class, N_PROPS, properties);
 
   signals [MOTION] =
     g_signal_new ("motion",

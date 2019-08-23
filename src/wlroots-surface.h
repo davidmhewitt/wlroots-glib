@@ -32,5 +32,6 @@ G_DECLARE_FINAL_TYPE (WlrootsSurface, wlroots_surface, WLROOTS, SURFACE, GObject
 WlrootsSurface *wlroots_surface_wrap (struct wlr_surface *surface);
 WlrootsTexture *wlroots_surface_get_texture (WlrootsSurface *self);
 void wlroots_surface_send_frame_done (WlrootsSurface *self, struct timespec *when);
+struct wlr_surface *wlroots_surface_get_wlr_surface (WlrootsSurface *self);
 
 G_END_DECLS
