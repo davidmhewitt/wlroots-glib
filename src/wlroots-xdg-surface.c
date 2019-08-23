@@ -238,9 +238,12 @@ xdg_surface_destroy (struct wl_listener *listener, void* data)
 {
   WlrootsXDGSurface *self = wl_container_of (listener, self, destroy);
 
-  g_object_unref (self->toplevel);
+  if (self->toplevel)
+  {
+    g_object_unref (self->toplevel);
+  }
 
-  g_signal_emit (self, signals[DESTROY], 0);
+  g_signal_emit (self, signals[DESTROY], 0, self);
 }
 
 static void
@@ -332,7 +335,8 @@ wlroots_xdg_surface_class_init (WlrootsXDGSurfaceClass *klass)
                   NULL,
                   g_cclosure_marshal_generic,
                   G_TYPE_NONE,
-                  0);
+                  1,
+                  WLROOTS_TYPE_XDG_SURFACE);
 }
 
 static void
