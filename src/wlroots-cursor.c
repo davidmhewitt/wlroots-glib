@@ -90,7 +90,7 @@ wlroots_cursor_move (WlrootsCursor *self, WlrootsInputDevice *device, gdouble de
   wlr_cursor_move (self->wrapped_cursor, wlr_dev, delta_x, delta_y);
 }
 
-struct wl_cursor *
+struct wlr_cursor *
 wlroots_cursor_get_wlr_cursor (WlrootsCursor *self)
 {
   return self->wrapped_cursor;

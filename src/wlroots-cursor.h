@@ -35,6 +35,6 @@ void wlroots_cursor_attach_output_layout (WlrootsCursor *self, WlrootsOutputLayo
 void wlroots_cursor_attach_input_device (WlrootsCursor *self, WlrootsInputDevice *input_dev);
 void wlroots_cursor_warp_absolute (WlrootsCursor *self, WlrootsInputDevice *device, gdouble x, gdouble y);
 void wlroots_cursor_move (WlrootsCursor *self, WlrootsInputDevice *device, gdouble delta_x, gdouble delta_y);
-struct wl_cursor *wlroots_cursor_get_wlr_cursor (WlrootsCursor *self);
+struct wlr_cursor *wlroots_cursor_get_wlr_cursor (WlrootsCursor *self);
 
 G_END_DECLS
