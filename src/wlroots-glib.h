@@ -30,6 +30,7 @@
 #include "wlroots-output-transform.h"
 #include "wlroots-renderer.h"
 #include "wlroots-seat.h"
+#include "wlroots-seat-keyboard-state.h"
 #include "wlroots-surface.h"
 #include "wlroots-surface-state.h"
 #include "wlroots-texture.h"

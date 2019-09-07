@@ -35,6 +35,8 @@ Renderer
 	.wlr_renderer skip
 Seat
 	.wayland_display skip
+SeatKeyboardState
+	.wlroots_seat_keyboard_state skip
 Surface
 	.get_wlr_surface skip
 	.send_frame_done.when type="Posix.timespec" ctype="struct timespec*"

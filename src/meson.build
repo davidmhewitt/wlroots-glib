@@ -1,6 +1,7 @@
 api_version = '0.1'
 
 wlroots_glib_sources = [
+  'pointer-table.c',
   'wlroots-backend.c',
   'wlroots-box.c',
   'wlroots-compositor.c',
@@ -14,6 +15,7 @@ wlroots_glib_sources = [
   'wlroots-output-transform.c',
   'wlroots-renderer.c',
   'wlroots-seat.c',
+  'wlroots-seat-keyboard-state.c',
   'wlroots-surface.c',
   'wlroots-surface-state.c',
   'wlroots-texture.c',
@@ -25,6 +27,7 @@ wlroots_glib_sources = [
 ]
 
 wlroots_glib_headers = [
+  'pointer-table.h',
   'wlroots-glib.h',
   'wlroots-backend.h',
   'wlroots-box.h',
@@ -39,6 +42,7 @@ wlroots_glib_headers = [
   'wlroots-output-transform.h',
   'wlroots-renderer.h',
   'wlroots-seat.h',
+  'wlroots-seat-keyboard-state.h',
   'wlroots-surface.h',
   'wlroots-surface-state.h',
   'wlroots-texture.h',

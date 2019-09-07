@@ -20,6 +20,7 @@
 
 #include <wlr/types/wlr_seat.h>
 #include "wlroots-seat.h"
+#include "wlroots-seat-keyboard-state.h"
 
 struct _WlrootsSeat
 {
@@ -30,6 +31,8 @@ struct _WlrootsSeat
 
   struct wlr_seat *wrapped_seat;
 
+  WlrootsSeatKeyboardState *keyboard_state;
+
   struct wl_listener request_cursor;
 };
 
@@ -39,6 +42,7 @@ enum {
   PROP_0,
   PROP_WAYLAND_DISPLAY,
   PROP_NAME,
+  PROP_KEYBOARD_STATE,
   N_PROPS
 };
 
@@ -141,6 +145,13 @@ wlroots_seat_get_property (GObject    *object,
     case PROP_NAME:
       g_value_set_string (value, self->name);
       break;
+    case PROP_KEYBOARD_STATE:
+      if (self->keyboard_state == NULL) {
+        self->keyboard_state = wlroots_seat_keyboard_state_wrap (&self->wrapped_seat->keyboard_state);
+      }
+
+      g_value_set_object (value, self->keyboard_state);
+      break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
     }
@@ -218,6 +229,14 @@ wlroots_seat_class_init (WlrootsSeatClass *klass)
                           (G_PARAM_READWRITE |
                            G_PARAM_CONSTRUCT_ONLY |
                            G_PARAM_STATIC_STRINGS));
+
+  properties [PROP_KEYBOARD_STATE] =
+    g_param_spec_object ("keyboard-state",
+                         "KeyboardState",
+                         "KeyboardState",
+                         WLROOTS_TYPE_SEAT_KEYBOARD_STATE,
+                         (G_PARAM_READABLE |
+                          G_PARAM_STATIC_STRINGS));
   g_object_class_install_properties (object_class, N_PROPS, properties);
 
   signals [REQUEST_CURSOR] =

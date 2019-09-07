@@ -36,9 +36,11 @@ foreach p : protocols
 		input: xml,
 		output: '@BASENAME@-protocol.h',
 		command: [wayland_scanner, 'server-header', '@INPUT@', '@OUTPUT@'],
+		install: true,
+		install_dir: join_paths(get_option('includedir'), meson.project_name ()),
 	)
 	wl_protos_headers += header
-	install_headers(header.full_path(), subdir: meson.project_name ())
+	#install_headers(header.full_path(), subdir: meson.project_name ())
 endforeach
 
 foreach p : client_protocols

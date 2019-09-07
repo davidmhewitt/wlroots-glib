@@ -32,14 +32,15 @@ G_BEGIN_DECLS
 
 G_DECLARE_FINAL_TYPE (WlrootsXDGSurface, wlroots_xdg_surface, WLROOTS, XDG_SURFACE, GObject)
 
-typedef void (*WlrootsXDGSurfaceFunc) (WlrootsSurface *surface, int sx, int sy, gpointer user_data);
+typedef void (*WlrootsXDGSurfaceFunc) (const WlrootsSurface *surface, int sx, int sy, gpointer user_data);
 
 WlrootsXDGSurface *wlroots_xdg_surface_wrap (struct wlr_xdg_surface *surface);
 WlrootsXDGToplevel *wlroots_xdg_surface_get_toplevel (WlrootsXDGSurface *self);
 void wlroots_xdg_surface_get_geometry (WlrootsXDGSurface *self, WlrootsBox **box);
 void wlroots_xdg_surface_for_each_surface (WlrootsXDGSurface *self, WlrootsXDGSurfaceFunc func, gpointer user_data);
-WlrootsSurface *wlroots_xdg_surface_surface_at (WlrootsXDGSurface *self, gdouble lx, gdouble ly, gdouble *sx, gdouble *sy);
+const WlrootsSurface *wlroots_xdg_surface_surface_at (WlrootsXDGSurface *self, gdouble lx, gdouble ly, gdouble *sx, gdouble *sy);
 gboolean wlroots_xdg_surface_equal (WlrootsXDGSurface *a, WlrootsXDGSurface *b);
+WlrootsXDGSurface *wlroots_get_xdg_surface_from_surface (WlrootsSurface *surface);
 
 typedef enum {
   WLROOTS_XDG_SURFACE_ROLE_NONE,

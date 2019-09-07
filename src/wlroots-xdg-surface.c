@@ -20,6 +20,7 @@
 
 #include "wlroots-xdg-surface.h"
 #include "wlroots-enum-types.h"
+#include "pointer-table.h"
 
 struct _WlrootsXDGSurface
 {
@@ -41,6 +42,7 @@ enum {
   PROP_XDG_SURFACE,
   PROP_ROLE,
   PROP_TOPLEVEL,
+  PROP_ACTIVATED,
   N_PROPS
 };
 
@@ -103,8 +105,6 @@ xdg_surface_for_each (struct wlr_surface *surface, int sx, int sy, void *data)
   WlrootsSurface* wrapped_surface = wlroots_surface_wrap (surface);
 
   (*func)(wrapped_surface, sx, sy, user_data);
-
-  g_object_unref (wrapped_surface);
 }
 
 /**
@@ -155,11 +155,11 @@ wlroots_xdg_surface_get_toplevel (WlrootsXDGSurface *self)
  * @sx: (out): The x co-ordinate of the top left of the touched surface
  * @sy: (out): The y co-ordinate of the top left of the touched surface
  *
- * Returns: (nullable) (transfer full): The #WlrootsSurface at the location or NULL
+ * Returns: (nullable) (transfer none): The #WlrootsSurface at the location or NULL
  *
  * Since: 0.1
  */
-WlrootsSurface *
+const WlrootsSurface *
 wlroots_xdg_surface_surface_at (WlrootsXDGSurface *self, gdouble lx, gdouble ly, gdouble *sx, gdouble *sy)
 {
   struct wlr_surface *_surface;
@@ -195,6 +195,20 @@ wlr_xdg_surface_role_to_wlroots_xdg_surface_role (gint type)
     }
 
   return output;
+}
+
+/**
+ * wlroots_get_xdg_surface_from_surface:
+ * @surface: (transfer none): The surface to lookup an XDG surface for
+ *
+ * Returns: (transfer full): The associated XDG surface
+ *
+ * Since: 0.1
+ */
+WlrootsXDGSurface *
+wlroots_get_xdg_surface_from_surface (WlrootsSurface *surface)
+{
+  return wlroots_xdg_surface_wrap (wlr_xdg_surface_from_wlr_surface (wlroots_surface_get_wlr_surface (surface)));
 }
 
 static void
@@ -234,6 +248,9 @@ wlroots_xdg_surface_set_property (GObject      *object,
     case PROP_XDG_SURFACE:
       self->wrapped_surface = g_value_get_pointer (value);
       break;
+    case PROP_ACTIVATED:
+      wlr_xdg_toplevel_set_activated (self->wrapped_surface, g_value_get_boolean (value));
+      break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
     }
@@ -259,11 +276,6 @@ static void
 xdg_surface_destroy (struct wl_listener *listener, void* data)
 {
   WlrootsXDGSurface *self = wl_container_of (listener, self, destroy);
-
-  if (self->toplevel)
-  {
-    g_object_unref (self->toplevel);
-  }
 
   g_signal_emit (self, signals[DESTROY], 0, self);
 }
@@ -324,6 +336,13 @@ wlroots_xdg_surface_class_init (WlrootsXDGSurfaceClass *klass)
                          (G_PARAM_READABLE |
                           G_PARAM_STATIC_STRINGS));
 
+  properties [PROP_ACTIVATED] =
+    g_param_spec_boolean ("activated",
+                          "Activated",
+                          "Activated",
+                          false,
+                          (G_PARAM_WRITABLE |
+                           G_PARAM_STATIC_STRINGS));
   g_object_class_install_properties (object_class, N_PROPS, properties);
 
   signals [MAP] =

@@ -21,12 +21,15 @@
 #include <wlr/types/wlr_surface.h>
 #include "wlroots-surface.h"
 #include "wlroots-surface-state.h"
+#include "pointer-table.h"
 
 struct _WlrootsSurface
 {
   GObject parent_instance;
 
   struct wlr_surface *wrapped_surface;
+
+  struct wl_listener destroy;
 };
 
 G_DEFINE_TYPE (WlrootsSurface, wlroots_surface, G_TYPE_OBJECT)
@@ -49,7 +52,17 @@ wlroots_surface_new (void)
 WlrootsSurface *
 wlroots_surface_wrap (struct wlr_surface *surface)
 {
-  return g_object_new (WLROOTS_TYPE_SURFACE, "wlroots-surface", surface, NULL);
+  WlrootsSurface *existing_surface = lookup_pointer (surface);
+
+  if (existing_surface)
+  {
+    return existing_surface;
+  }
+
+  existing_surface = g_object_new (WLROOTS_TYPE_SURFACE, "wlroots-surface", surface, NULL);
+  g_hash_table_insert (wlroots_pointers, surface, existing_surface);
+
+  return existing_surface;
 }
 
 /**
@@ -130,6 +143,26 @@ wlroots_surface_set_property (GObject      *object,
 }
 
 static void
+surface_destroy (struct wl_listener *listener, void* data)
+{
+  WlrootsSurface *self = wl_container_of (listener, self, destroy);
+
+  g_hash_table_remove (wlroots_pointers, self->wrapped_surface);
+}
+
+static void
+wlroots_surface_constructed (GObject *obj)
+{
+  WlrootsSurface *self = WLROOTS_SURFACE (obj);
+
+  self->destroy.notify = surface_destroy;
+
+  wl_signal_add (&self->wrapped_surface->events.destroy, &self->destroy);
+
+  G_OBJECT_CLASS(wlroots_surface_parent_class)->constructed (obj);
+}
+
+static void
 wlroots_surface_class_init (WlrootsSurfaceClass *klass)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
@@ -137,6 +170,7 @@ wlroots_surface_class_init (WlrootsSurfaceClass *klass)
   object_class->finalize = wlroots_surface_finalize;
   object_class->get_property = wlroots_surface_get_property;
   object_class->set_property = wlroots_surface_set_property;
+  object_class->constructed = wlroots_surface_constructed;
 
   properties [PROP_WLROOTS_SURFACE] =
     g_param_spec_pointer ("wlroots-surface",
