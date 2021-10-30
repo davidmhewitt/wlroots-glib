@@ -90,6 +90,12 @@ wlroots_cursor_move (WlrootsCursor *self, WlrootsInputDevice *device, gdouble de
   wlr_cursor_move (self->wrapped_cursor, wlr_dev, delta_x, delta_y);
 }
 
+void
+wlroots_cursor_set_surface (WlrootsCursor *self, WlrootsSurface *surface, gint32 hotspot_x, gint32 hotspot_y)
+{
+  wlr_cursor_set_surface (self->wrapped_cursor, wlroots_surface_get_wlr_surface (surface), hotspot_x, hotspot_y);
+}
+
 struct wlr_cursor *
 wlroots_cursor_get_wlr_cursor (WlrootsCursor *self)
 {

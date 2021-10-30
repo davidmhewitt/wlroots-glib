@@ -287,3 +287,69 @@ wlroots_event_pointer_button_new (struct wlr_event_pointer_button *wlr_event)
 
   return event;
 }
+
+/**
+ * wlroots_event_request_cursor_ref:
+ * @event: a #WlrootsEventRequestCursor.
+ *
+ * Increments the reference count of the event
+ *
+ * Returns: the event.
+ **/
+WlrootsEventRequestCursor *
+wlroots_event_request_cursor_ref (WlrootsEventRequestCursor *event)
+{
+  if (event)
+  {
+    event->ref_count++;
+  }
+
+  return event;
+}
+
+/**
+ * wlroots_event_request_cursor_unref:
+ * @event: a #WlrootsEventRequestCursor.
+ *
+ * Decrements the reference count of the event. If it falls to 0
+ * it is freed
+ *
+ * Returns: the event.
+ **/
+void
+wlroots_event_request_cursor_unref (WlrootsEventRequestCursor *event)
+{
+  if (event && --event->ref_count == 0)
+  {
+    g_object_unref (event->surface);
+    g_free (event);
+  }
+}
+
+GType
+wlroots_event_request_cursor_get_type (void)
+{
+  static GType event_type = 0;
+
+  if (event_type == 0)
+    event_type = g_boxed_type_register_static
+      ("WlrootsEventRequestCursor",
+       (GBoxedCopyFunc) wlroots_event_request_cursor_ref,
+       (GBoxedFreeFunc) wlroots_event_request_cursor_unref);
+
+  return event_type;
+}
+
+WlrootsEventRequestCursor *
+wlroots_event_request_cursor_new (struct wlr_seat_pointer_request_set_cursor_event *wlr_event)
+{
+  WlrootsEventRequestCursor *event;
+  event = g_new (WlrootsEventRequestCursor, 1);
+  event->ref_count = 1;
+  event->surface = wlroots_surface_wrap (wlr_event->surface);
+  event->serial = wlr_event->serial;
+  event->hotspot_x = wlr_event->hotspot_x;
+  event->hotspot_y = wlr_event->hotspot_y;
+
+  return event;
+}

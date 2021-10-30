@@ -22,7 +22,9 @@
 
 #include <glib-object.h>
 #include <wlr/types/wlr_pointer.h>
+#include <wlr/types/wlr_seat.h>
 #include "wlroots-input-device.h"
+#include "wlroots-surface.h"
 
 G_BEGIN_DECLS
 
@@ -30,6 +32,7 @@ typedef struct _WlrootsEventPointerMotionAbsolute WlrootsEventPointerMotionAbsol
 typedef struct _WlrootsEventPointerAxis WlrootsEventPointerAxis;
 typedef struct _WlrootsEventPointerMotion WlrootsEventPointerMotion;
 typedef struct _WlrootsEventPointerButton WlrootsEventPointerButton;
+typedef struct _WlrootsEventRequestCursor WlrootsEventRequestCursor;
 
 struct _WlrootsEventPointerMotionAbsolute
 {
@@ -92,18 +95,30 @@ struct _WlrootsEventPointerButton
   WlrootsButtonState state;
 };
 
+struct _WlrootsEventRequestCursor
+{
+  /*< public >*/
+  int ref_count;
+  WlrootsSurface *surface;
+  guint32 serial;
+  gint32 hotspot_x, hotspot_y;
+};
+
 #define WLROOTS_TYPE_EVENT_POINTER_MOTION_ABSOLUTE  (wlroots_event_pointer_motion_absolute_get_type ())
 #define WLROOTS_TYPE_EVENT_POINTER_AXIS  (wlroots_event_pointer_axis_get_type ())
 #define WLROOTS_TYPE_EVENT_POINTER_MOTION  (wlroots_event_pointer_motion_get_type ())
 #define WLROOTS_TYPE_EVENT_POINTER_BUTTON  (wlroots_event_pointer_button_get_type ())
+#define WLROOTS_TYPE_EVENT_REQUEST_CURSOR (wlroots_event_request_cursor_get_type ())
 GType              wlroots_event_pointer_motion_absolute_get_type (void) G_GNUC_CONST;
 GType              wlroots_event_pointer_axis_get_type (void) G_GNUC_CONST;
 GType              wlroots_event_pointer_motion_get_type (void) G_GNUC_CONST;
 GType              wlroots_event_pointer_button_get_type (void) G_GNUC_CONST;
+GType              wlroots_event_request_cursor_get_type (void) G_GNUC_CONST;
 
 WlrootsEventPointerMotionAbsolute *wlroots_event_pointer_motion_absolute_new (struct wlr_event_pointer_motion_absolute *event);
 WlrootsEventPointerAxis *wlroots_event_pointer_axis_new (struct wlr_event_pointer_axis *event);
 WlrootsEventPointerMotion *wlroots_event_pointer_motion_new (struct wlr_event_pointer_motion *event);
 WlrootsEventPointerButton *wlroots_event_pointer_button_new (struct wlr_event_pointer_button *event);
+WlrootsEventRequestCursor *wlroots_event_request_cursor_new (struct wlr_seat_pointer_request_set_cursor_event *event);
 
 G_END_DECLS

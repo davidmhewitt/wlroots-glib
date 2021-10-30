@@ -1,6 +1,6 @@
 /* wlroots-seat-keyboard-state.c
  *
- * Copyright 2019 David Hewitt <davidmhewitt@gmail.com>
+ * Copyright 2019-2021 David Hewitt <davidmhewitt@gmail.com>
  *
  * This file is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as
@@ -32,6 +32,7 @@ G_DEFINE_TYPE (WlrootsSeatKeyboardState, wlroots_seat_keyboard_state, G_TYPE_OBJ
 enum {
   PROP_0,
   PROP_WLROOTS_SEAT_KEYBOARD_STATE,
+  PROP_FOCUSED_SURFACE,
   N_PROPS
 };
 
@@ -69,6 +70,9 @@ wlroots_seat_keyboard_state_get_property (GObject    *object,
     {
     case PROP_WLROOTS_SEAT_KEYBOARD_STATE:
       g_value_set_pointer (value, self->wrapped_state);
+      break;
+    case PROP_FOCUSED_SURFACE:
+      g_value_set_object (value, wlroots_surface_wrap (self->wrapped_state->focused_surface));
       break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -127,6 +131,14 @@ wlroots_seat_keyboard_state_class_init (WlrootsSeatKeyboardStateClass *klass)
                           (G_PARAM_READWRITE |
                            G_PARAM_CONSTRUCT_ONLY |
                            G_PARAM_STATIC_STRINGS));
+
+  properties[PROP_FOCUSED_SURFACE] =
+    g_param_spec_object ("focused-surface",
+                         "FocusedSurface",
+                         "FocusedSurface",
+                         WLROOTS_TYPE_SURFACE,
+                         (G_PARAM_READABLE |
+                          G_PARAM_STATIC_STRINGS));
 
   g_object_class_install_properties (object_class, N_PROPS, properties);
 }

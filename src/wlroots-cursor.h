@@ -1,6 +1,6 @@
 /* wlroots-cursor.h
  *
- * Copyright 2019 David Hewitt <davidmhewitt@gmail.com>
+ * Copyright 2019-2021 David Hewitt <davidmhewitt@gmail.com>
  *
  * This file is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as
@@ -23,6 +23,7 @@
 #include <glib-object.h>
 #include "wlroots-output-layout.h"
 #include "wlroots-input-device.h"
+#include "wlroots-surface.h"
 
 G_BEGIN_DECLS
 
@@ -35,6 +36,7 @@ void wlroots_cursor_attach_output_layout (WlrootsCursor *self, WlrootsOutputLayo
 void wlroots_cursor_attach_input_device (WlrootsCursor *self, WlrootsInputDevice *input_dev);
 void wlroots_cursor_warp_absolute (WlrootsCursor *self, WlrootsInputDevice *device, gdouble x, gdouble y);
 void wlroots_cursor_move (WlrootsCursor *self, WlrootsInputDevice *device, gdouble delta_x, gdouble delta_y);
+void wlroots_cursor_set_surface (WlrootsCursor *self, WlrootsSurface *surface, gint32 hotspot_x, gint32 hotspot_y);
 struct wlr_cursor *wlroots_cursor_get_wlr_cursor (WlrootsCursor *self);
 
 G_END_DECLS

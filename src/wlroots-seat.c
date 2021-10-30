@@ -191,7 +191,8 @@ static void
 seat_request_cursor (struct wl_listener *listener, void *data)
 {
   WlrootsSeat *self = wl_container_of (listener, self, request_cursor);
-  g_signal_emit (self, signals[REQUEST_CURSOR], 0);
+  WlrootsEventRequestCursor *event = wlroots_event_request_cursor_new ((struct wlr_seat_pointer_request_set_cursor_event *)data);
+  g_signal_emit (self, signals[REQUEST_CURSOR], 0, event);
 }
 
 static void
@@ -254,7 +255,8 @@ wlroots_seat_class_init (WlrootsSeatClass *klass)
                   NULL,
                   g_cclosure_marshal_generic,
                   G_TYPE_NONE,
-                  0);
+                  1,
+                  WLROOTS_TYPE_EVENT_REQUEST_CURSOR);
 }
 
 static void

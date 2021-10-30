@@ -1,6 +1,6 @@
 /* wlroots-xdg-surface.c
  *
- * Copyright 2019 David Hewitt <davidmhewitt@gmail.com>
+ * Copyright 2019-2021 David Hewitt <davidmhewitt@gmail.com>
  *
  * This file is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as
@@ -43,6 +43,7 @@ enum {
   PROP_ROLE,
   PROP_TOPLEVEL,
   PROP_ACTIVATED,
+  PROP_SURFACE,
   N_PROPS
 };
 
@@ -230,6 +231,9 @@ wlroots_xdg_surface_get_property (GObject    *object,
     case PROP_TOPLEVEL:
       g_value_set_object (value, wlroots_xdg_surface_get_toplevel (self));
       break;
+    case PROP_SURFACE:
+      g_value_set_object (value, wlroots_surface_wrap (self->wrapped_surface->surface));
+      break;
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
     }
@@ -343,6 +347,14 @@ wlroots_xdg_surface_class_init (WlrootsXDGSurfaceClass *klass)
                           false,
                           (G_PARAM_WRITABLE |
                            G_PARAM_STATIC_STRINGS));
+
+  properties [PROP_SURFACE] =
+    g_param_spec_object ("surface",
+                         "Surface",
+                         "Surface",
+                         WLROOTS_TYPE_SURFACE,
+                         (G_PARAM_READABLE |
+                          G_PARAM_STATIC_STRINGS));
   g_object_class_install_properties (object_class, N_PROPS, properties);
 
   signals [MAP] =
