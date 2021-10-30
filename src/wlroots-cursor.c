@@ -1,6 +1,6 @@
 /* wlroots-cursor.c
  *
- * Copyright 2019 David Hewitt <davidmhewitt@gmail.com>
+ * Copyright 2019-2021 David Hewitt <davidmhewitt@gmail.com>
  *
  * This file is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as
@@ -219,6 +219,17 @@ wlroots_cursor_class_init (WlrootsCursorClass *klass)
                   G_TYPE_NONE,
                   1,
                   WLROOTS_TYPE_EVENT_POINTER_AXIS);
+
+  signals [FRAME] =
+    g_signal_new ("frame",
+                  G_TYPE_FROM_CLASS (klass),
+                  G_SIGNAL_RUN_LAST,
+                  0,
+                  NULL,
+                  NULL,
+                  g_cclosure_marshal_generic,
+                  G_TYPE_NONE,
+                  0);
 }
 
 static void
@@ -258,6 +269,14 @@ cursor_axis (struct wl_listener *listener, void *data)
 }
 
 static void
+cursor_frame (struct wl_listener *listener, void *data)
+{
+  WlrootsCursor *self = wl_container_of (listener, self, frame);
+
+  g_signal_emit (self, signals[FRAME], 0);
+}
+
+static void
 wlroots_cursor_init (WlrootsCursor *self)
 {
   self->wrapped_cursor = wlr_cursor_create ();
@@ -266,9 +285,11 @@ wlroots_cursor_init (WlrootsCursor *self)
   self->motion_absolute.notify = cursor_motion_absolute;
   self->button.notify = cursor_button;
   self->axis.notify = cursor_axis;
+  self->frame.notify = cursor_frame;
 
   wl_signal_add (&self->wrapped_cursor->events.motion, &self->motion);
   wl_signal_add (&self->wrapped_cursor->events.motion_absolute, &self->motion_absolute);
   wl_signal_add (&self->wrapped_cursor->events.button, &self->button);
   wl_signal_add (&self->wrapped_cursor->events.axis, &self->axis);
+  wl_signal_add (&self->wrapped_cursor->events.frame, &self->frame);
 }

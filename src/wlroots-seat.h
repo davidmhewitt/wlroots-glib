@@ -1,6 +1,6 @@
 /* wlroots-seat.h
  *
- * Copyright 2019 David Hewitt <davidmhewitt@gmail.com>
+ * Copyright 2019-2021 David Hewitt <davidmhewitt@gmail.com>
  *
  * This file is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as
@@ -40,6 +40,7 @@ typedef enum {
 } WlrootsWaylandSeatCapability;
 
 void wlroots_seat_set_capabilities (WlrootsSeat *self, WlrootsWaylandSeatCapability caps);
+void wlroots_seat_set_keyboard (WlrootsSeat *self, WlrootsInputDevice *device);
 void wlroots_seat_pointer_notify_axis (WlrootsSeat *self,
                                        guint32 msec,
                                        WlrootsEventAxisOrientation orientation,

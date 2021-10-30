@@ -1,6 +1,6 @@
 /* wlroots-events.c
  *
- * Copyright 2019 David Hewitt <davidmhewitt@gmail.com>
+ * Copyright 2019-2021 David Hewitt <davidmhewitt@gmail.com>
  *
  * This file is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as

@@ -1,6 +1,6 @@
 /* wlroots-output.h
  *
- * Copyright 2019 David Hewitt <davidmhewitt@gmail.com>
+ * Copyright 2019-2021 David Hewitt <davidmhewitt@gmail.com>
  *
  * This file is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as
@@ -33,11 +33,13 @@ typedef struct _WlrootsOutputMode WlrootsOutputMode;
 
 WlrootsOutput *wlroots_output_wrap (struct wlr_output *output);
 GList *wlroots_output_get_modes (WlrootsOutput *self);
+WlrootsOutputMode *wlroots_output_get_preferred_mode (WlrootsOutput *self);
 void wlroots_output_set_mode (WlrootsOutput *self, WlrootsOutputMode *mode);
 struct wlr_output *wlroots_output_get_wlr_output (WlrootsOutput *self);
 void wlroots_output_create_global (WlrootsOutput *self);
 gboolean wlroots_output_attach_render (WlrootsOutput *self, int *buffer_age);
 void wlroots_output_effective_resolution (WlrootsOutput *self, int *width, int *height);
+void wlroots_output_set_enabled (WlrootsOutput *self, gboolean enabled);
 void wlroots_output_commit (WlrootsOutput *self);
 void wlroots_output_render_software_cursors (WlrootsOutput *self);
 gboolean wlroots_output_equal (WlrootsOutput *a, WlrootsOutput *b);

@@ -1,6 +1,6 @@
 /* wlroots-events.h
  *
- * Copyright 2019 David Hewitt <davidmhewitt@gmail.com>
+ * Copyright 2019-2021 David Hewitt <davidmhewitt@gmail.com>
  *
  * This file is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as
@@ -21,6 +21,7 @@
 #pragma once
 
 #include <glib-object.h>
+#include <wlr/types/wlr_pointer.h>
 #include "wlroots-input-device.h"
 
 G_BEGIN_DECLS

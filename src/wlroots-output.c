@@ -1,6 +1,6 @@
 /* wlroots-output.c
  *
- * Copyright 2019 David Hewitt <davidmhewitt@gmail.com>
+ * Copyright 2019-2021 David Hewitt <davidmhewitt@gmail.com>
  *
  * This file is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as
@@ -96,6 +96,13 @@ wlroots_output_get_modes (WlrootsOutput *self)
   return modes;
 }
 
+WlrootsOutputMode *
+wlroots_output_get_preferred_mode (WlrootsOutput *self)
+{
+  struct wlr_output_mode *m = wlr_output_preferred_mode (self->wrapped_output);
+  return wlroots_output_mode_new (m, m->width, m->height, m->refresh);
+}
+
 void
 wlroots_output_set_mode (WlrootsOutput *self, WlrootsOutputMode *mode)
 {
@@ -139,6 +146,12 @@ void
 wlroots_output_effective_resolution (WlrootsOutput *self, int *width, int *height)
 {
   wlr_output_effective_resolution (self->wrapped_output, width, height);
+}
+
+void
+wlroots_output_set_enabled (WlrootsOutput *self, gboolean enabled)
+{
+  wlr_output_enable (self->wrapped_output, enabled);
 }
 
 void

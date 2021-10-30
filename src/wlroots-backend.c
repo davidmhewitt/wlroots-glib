@@ -1,6 +1,6 @@
 /* wlroots-backend.c
  *
- * Copyright 2019 David Hewitt <davidmhewitt@gmail.com>
+ * Copyright 2019-2021 David Hewitt <davidmhewitt@gmail.com>
  *
  * This file is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as
@@ -178,7 +178,7 @@ wlroots_backend_constructed (GObject *obj)
 {
   WlrootsBackend *self = WLROOTS_BACKEND (obj);
 
-  self->wrapped_backend = wlr_backend_autocreate (self->wayland_display, NULL);
+  self->wrapped_backend = wlr_backend_autocreate (self->wayland_display);
   self->new_input.notify = backend_new_input;
   self->new_output.notify = backend_new_output;
 

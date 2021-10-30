@@ -1,6 +1,6 @@
 /* wlroots-renderer.c
  *
- * Copyright 2019 David Hewitt <davidmhewitt@gmail.com>
+ * Copyright 2019-2021 David Hewitt <davidmhewitt@gmail.com>
  *
  * This file is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as
@@ -86,7 +86,7 @@ wlroots_renderer_end (WlrootsRenderer * self)
  * wlroots_renderer_clear:
  * @color: (array fixed-size=4): Array of 4 floats, RGBA color to clear
  *
- * Since: 0.2
+ * Since: 0.1
  */
 void
 wlroots_renderer_clear (WlrootsRenderer *self, const float color[])

@@ -1,6 +1,6 @@
 /* wlroots-seat.c
  *
- * Copyright 2019 David Hewitt <davidmhewitt@gmail.com>
+ * Copyright 2019-2021 David Hewitt <davidmhewitt@gmail.com>
  *
  * This file is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as
@@ -65,6 +65,12 @@ void
 wlroots_seat_set_capabilities (WlrootsSeat *self, WlrootsWaylandSeatCapability caps)
 {
   wlr_seat_set_capabilities (self->wrapped_seat, caps);
+}
+
+void
+wlroots_seat_set_keyboard (WlrootsSeat *self, WlrootsInputDevice *device)
+{
+  wlr_seat_set_keyboard (self->wrapped_seat, wlroots_input_device_get_wlr_device (device));
 }
 
 void
